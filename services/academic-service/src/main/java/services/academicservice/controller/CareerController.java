@@ -30,8 +30,10 @@ public class CareerController {
     }
 
     @GetMapping("/all")
-    public List<CareerDtoGet> getAllCareers() {
-        return careerService.getAllCareers().stream().map(career -> modelMapper.map(career, CareerDtoGet.class))
+    public List<CareerDtoGet> getAllCareers(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        return careerService.getAllCareers(pageNo, pageSize).stream().map(career -> modelMapper.map(career, CareerDtoGet.class))
                 .collect(Collectors.toList());
     }
 
