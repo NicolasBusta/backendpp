@@ -1,6 +1,8 @@
 package services.academicservice.entity;
 
 import lombok.*;
+import services.academicservice.dto.CareerDtoPost;
+
 import javax.persistence.*;
 
 @Getter
@@ -43,4 +45,13 @@ public class Career {
     @Column(name = "INTERMEDIATE_CAREER")
     private Long intermediate_career;
 
+    public Career(CareerDtoPost careerDtoPost) {
+        setDescription(careerDtoPost.getDescription());
+        setLegal_description(careerDtoPost.getLegal_description());
+        setStatus(careerDtoPost.getStatus());
+        setCode(careerDtoPost.getCode());
+        setCareer_type(careerDtoPost.getCareer_type());
+        setCareer_credits(careerDtoPost.getCareer_credits());
+        setCareer_hours(careerDtoPost.getCareer_hours());
+    }
 }

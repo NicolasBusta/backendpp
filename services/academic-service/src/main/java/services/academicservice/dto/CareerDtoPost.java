@@ -1,13 +1,16 @@
 package services.academicservice.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import services.academicservice.entity.Career;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
-@Data
+@Getter
+@Setter
 public class CareerDtoPost {
 
     public final static String REGEX = "^[A-Za-záéíóúÁÉÍÓÚ]+( [A-Za-záéíóúÁÉÍÓÚ]+)*$";
@@ -34,4 +37,5 @@ public class CareerDtoPost {
     @PositiveOrZero
     @NotNull(message = "Invalid Input")
     private Long career_hours;
+
 }
