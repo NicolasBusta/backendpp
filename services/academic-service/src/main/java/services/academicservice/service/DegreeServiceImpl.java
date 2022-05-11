@@ -35,7 +35,7 @@ public class DegreeServiceImpl {
 		
 		Degree nuevoDegree = new Degree(degreeDtoPost);
 		degreeRepository.save(nuevoDegree);
-		return new ResponseEntity<String>("Degree", HttpStatus.OK);
+		return new ResponseEntity<String>("Degree create successfully", HttpStatus.OK);
 	}
 	
 	

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>services</groupId>
 	<artifactId>academic-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.12-SNAPSHOT</version>
 	<name>academic-service</name>
 	<description>BackendPP</description>
 	<properties>
@@ -18,19 +18,10 @@
 	</properties>
 
 	<dependencies>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 36621f8d3ae310486b117d994f20cf02bd6f62b1
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<dependency>
