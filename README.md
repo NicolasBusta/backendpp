@@ -3,6 +3,7 @@ Aquí se llevara acabo todo el backend de la practica profesionalizante de los a
 
 ## Integrantes
 **Lider**: Ezequiel Ferrauti
+
 **Backend Team**
 - Nicolas Bustamante
 - Leonardo Bravo
