@@ -22,6 +22,6 @@ Service  | Request | URL            | Parameters                                
 | Degree | POST    | degree/save/   | `int !id`
 
 **Glosary**
-!: required parameter.
-int: number type.
-String: text type.
+- !: required parameter.
+- int: number type.
+- String: text type.
