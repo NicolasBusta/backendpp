@@ -19,7 +19,7 @@ Service  | Request | URL            | Parameters                                
 | Career | DELETE  | career/delete/ | `int !id`
 | Degree | GET     | degree/all/    | 
 | Degree | GET     | degree/get/    | `int !id`
-| Degree | POST    | degree/save/   | `int !id`
+| Degree | POST    | degree/save/   | 
 
 **Glosary**
 - !: required parameter.
