@@ -1,12 +1,14 @@
 package services.academicservice.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import services.academicservice.entity.Career;
 import services.academicservice.entity.CareerBook;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CareerDtoGetTwo {
 
     private Long id;
@@ -29,4 +31,5 @@ public class CareerDtoGetTwo {
         this.careerHours = career.getCareerHours();
         this.book = careerBook.getBook();
     }
+
 }

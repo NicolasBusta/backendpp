@@ -1,6 +1,7 @@
 package services.academicservice.service;
 
 import org.springframework.http.ResponseEntity;
+
 import services.academicservice.dto.CareerDtoGet;
 import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
@@ -20,4 +21,5 @@ public interface CareerService {
     ResponseEntity<String> updateCareer(Long id, CareerDtoPost careerDtoPost);
 
     ResponseEntity<String> deleteCareerById(Long id);
+
 }

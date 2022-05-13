@@ -1,10 +1,15 @@
 package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import services.academicservice.dto.CareerDtoPost;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+
+import services.academicservice.dto.CareerDtoPost;
 
 @Getter
 @Setter
@@ -63,4 +68,5 @@ public class Career {
     public CareerBook getCareerBook() {
         return careerBook;
     }
+
 }

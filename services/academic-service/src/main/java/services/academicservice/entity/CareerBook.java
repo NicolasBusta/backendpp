@@ -1,13 +1,14 @@
 package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import services.academicservice.dto.CareerDtoGetTwo;
 
 import javax.persistence.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,4 +35,5 @@ public class CareerBook {
     @JoinColumn(name = "CAREER_ID")
     @JsonBackReference
     private Career career;
+
 }

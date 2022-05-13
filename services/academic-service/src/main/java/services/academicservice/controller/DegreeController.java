@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import services.academicservice.dto.DegreeDtoGet;
 import services.academicservice.dto.DegreeDtoPost;
-import services.academicservice.entity.Degree;
 import services.academicservice.service.DegreeServiceImpl;
-
-
 
 @RestController
 @RequestMapping("/degree")
@@ -38,7 +35,5 @@ public class DegreeController {
     public ResponseEntity<String> degreeCreation(@RequestBody DegreeDtoPost degreeDtoPost){
        return degreeService.degreeCreation(degreeDtoPost);
     }
-	
 
-	
 }

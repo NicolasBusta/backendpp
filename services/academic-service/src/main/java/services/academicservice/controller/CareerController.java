@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import services.academicservice.dto.CareerDtoGet;
 import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
-import services.academicservice.entity.Career;
 import services.academicservice.service.CareerServiceImpl;
-
 
 import java.util.List;
 
 @RestController
-
 @RequestMapping("/career")
 public class CareerController {
 
