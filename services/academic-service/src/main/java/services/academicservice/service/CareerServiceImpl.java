@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.dto.CareerDtoGet;
+import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
 import services.academicservice.entity.Career;
 import services.academicservice.repository.CareerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,11 +35,21 @@ public class CareerServiceImpl {
         return careerDtoGet;
     }
 
+    public List<CareerDtoGetTwo> fetchAllCareersDto(Integer pageNo, Integer pageSize, String sortBy, String direction) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
+        Page<Career> careerList = careerRepository.findAll(paging);
+        List<CareerDtoGetTwo> careerDtoGetTwoList = new ArrayList<>();
+        for (Career career : careerList) {
+            careerDtoGetTwoList.add(new CareerDtoGetTwo(career, career.getCareerBook()));
+        }
+        return careerDtoGetTwoList;
+    }
+
     public CareerDtoGet fetchCareerById(Long id) {
-        Career career = careerRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(id, "Career"));
-        CareerDtoGet careerDtoGet = new CareerDtoGet(career);
-        return careerDtoGet;
+          Career career = careerRepository.findById(id)
+                  .orElseThrow(() -> new ObjectNotFoundException(id, "Career"));
+          CareerDtoGet careerDtoGet = new CareerDtoGet(career);
+          return careerDtoGet;
     }
 
     public ResponseEntity<String> createCareer(CareerDtoPost careerDtoPost) {

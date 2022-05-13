@@ -6,7 +6,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import services.academicservice.dto.CareerDtoGet;
+import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
+import services.academicservice.entity.Career;
 import services.academicservice.service.CareerServiceImpl;
 
 import javax.validation.Valid;
@@ -33,9 +35,17 @@ public class CareerController {
         return careerService.fetchAllCareers(pageNo, pageSize, direction, sortBy);
     }
 
+    @GetMapping("/dto/all")
+    public List<CareerDtoGetTwo> fetchAllCareersDto(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                    @RequestParam(defaultValue = "20") Integer pageSize,
+                                                    @RequestParam(defaultValue = "id") String sortBy,
+                                                    @RequestParam(defaultValue = "ASC") String direction) {
+        return careerService.fetchAllCareersDto(pageNo, pageSize, sortBy, direction);
+    }
+
     @GetMapping("/get/{id}")
-    public CareerDtoGet fetchCareerById(@PathVariable(value = "id") Long id) {
-        return careerService.fetchCareerById(id);
+      public CareerDtoGet fetchCareerById(@PathVariable(value = "id") Long id) {
+          return careerService.fetchCareerById(id);
     }
 
     @PostMapping("/create")

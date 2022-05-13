@@ -1,5 +1,6 @@
 package services.academicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import services.academicservice.dto.CareerDtoPost;
 
@@ -15,14 +16,14 @@ public class Career {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "LEGAL_DESCRIPTION")
-    private String legal_description;
+    private String legalDescription;
 
     @Column(name = "STATUS")
     private Boolean status;
@@ -31,27 +32,35 @@ public class Career {
     private String code;
 
     @Column(name = "SAP_CODE")
-    private String sap_code;
+    private String sapCode;
 
     @Column(name = "CAREER_TYPE")
-    private Short career_type;
+    private Short careerType;
 
     @Column(name = "CAREER_CREDITS")
-    private Long career_credits;
+    private Long careerCredits;
 
     @Column(name = "CAREER_HOURS")
-    private Long career_hours;
+    private Long careerHours;
 
     @Column(name = "INTERMEDIATE_CAREER")
-    private Long intermediate_career;
+    private Long intermediateCareer;
+
+    @OneToOne(mappedBy = "career")
+    @JsonManagedReference
+    private CareerBook careerBook;
 
     public Career(CareerDtoPost careerDtoPost) {
-        setDescription(careerDtoPost.getDescription());
-        setLegal_description(careerDtoPost.getLegal_description());
-        setStatus(careerDtoPost.getStatus());
-        setCode(careerDtoPost.getCode());
-        setCareer_type(careerDtoPost.getCareer_type());
-        setCareer_credits(careerDtoPost.getCareer_credits());
-        setCareer_hours(careerDtoPost.getCareer_hours());
+        this.description = careerDtoPost.getDescription();
+        this.legalDescription = careerDtoPost.getLegalDescription();
+        this.status = careerDtoPost.getStatus();
+        this.code = careerDtoPost.getCode();
+        this.careerType = careerDtoPost.getCareerType();
+        this.careerCredits = careerDtoPost.getCareerCredits();
+        this.careerHours = careerDtoPost.getCareerHours();
+    }
+
+    public CareerBook getCareerBook() {
+        return careerBook;
     }
 }

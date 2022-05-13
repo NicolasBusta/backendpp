@@ -19,7 +19,7 @@ public class CareerDtoPost {
     private String description;
 
     @Pattern(regexp=REGEX,message = "Invalid Input")
-    private String legal_description;
+    private String legalDescription;
 
     private Boolean status;
 
@@ -28,14 +28,14 @@ public class CareerDtoPost {
 
     @Positive
     @NotNull(message = "Invalid Input")
-    private Short career_type;
+    private Short careerType;
 
     @PositiveOrZero
     @NotNull(message = "Invalid Input")
-    private Long career_credits;
+    private Long careerCredits;
 
     @PositiveOrZero
     @NotNull(message = "Invalid Input")
-    private Long career_hours;
+    private Long careerHours;
 
 }
