@@ -1,4 +1,4 @@
-# Práctica Profesionalizantes: Backend
+# Práctica Profesionalizante: Backend
 Aquí se llevara acabo todo el backend de la practica profesionalizante de los alumnos Eze FC.
 
 ## Integrantes
@@ -10,22 +10,18 @@ Aquí se llevara acabo todo el backend de la practica profesionalizante de los a
 
 ## Services
 
-### Career
-- GET: `career/all/{pageNo (op)} {pageSize (op)} {sortBy (op)} {direction (op)}`
-- GET: `career/get/{id} {pageNo (op)} {pageSize (op)} {sortBy (op)} {direction (op)}`
-- POST: `career/create`
-- DELETE: `career/delete/{id}`
-- UPDATE: `career/update/{id}`
+Service  | Request | URL            | Parameters                                                 |
+| -----  | ------- | -------------- | ---------------------------------------------------------- |
+| Career | GET     | career/all/    | `int pageNo, int pageSize, String sortBy, String direction`
+| Career | GET     | career/get/    | `int !id`
+| Career | POST    | career/create/ | 
+| Career | UPDATE  | career/update/ | `int !id`
+| Career | DELETE  | career/delete/ | `int !id`
+| Degree | GET     | degree/all/    | 
+| Degree | GET     | degree/get/    | `int !id`
+| Degree | POST    | degree/save/   | `int !id`
 
-| Request | URL | Parameters |
-| ------- | --- | ----------- |
-| GET     | career/all/ | `int pageNo, int pageSize, String sortBy, String direction`
-| GET     | career/get/ | `int !id`
-| POST     | career/create/ | 
-| UPDATE     | career/update/ | `int !id`
-| DELETE     | career/delete/ | `int !id`
-
-### Degree
-- GET: `degree/all`
-- GET: `degree/get`
-- POST: `degree/create`
+**Glosary**
+!: required parameter.
+int: number type.
+String: text type.
