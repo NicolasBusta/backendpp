@@ -2,7 +2,6 @@ package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import services.academicservice.dto.CareerDtoPost;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "ACADEMIC_CAREERS", schema = "academic")
 public class Career {
@@ -51,22 +49,30 @@ public class Career {
     @Column(name = "INTERMEDIATE_CAREER")
     private Long intermediateCareer;
 
-    @OneToOne(mappedBy = "career")
+    @OneToOne(mappedBy = "career", cascade = CascadeType.ALL)
     @JsonManagedReference
     private CareerBook careerBook;
 
-    public Career(CareerDtoPost careerDtoPost) {
-        this.description = careerDtoPost.getDescription();
-        this.legalDescription = careerDtoPost.getLegalDescription();
-        this.status = careerDtoPost.getStatus();
-        this.code = careerDtoPost.getCode();
-        this.careerType = careerDtoPost.getCareerType();
-        this.careerCredits = careerDtoPost.getCareerCredits();
-        this.careerHours = careerDtoPost.getCareerHours();
+    public Career(CareerDtoPost dto) {
+        this.description = dto.getDescription();
+        this.legalDescription = dto.getLegalDescription();
+        this.status = dto.getStatus();
+        this.code = dto.getCode();
+        this.careerType = dto.getCareerType();
+        this.careerCredits = dto.getCareerCredits();
+        this.careerHours = dto.getCareerHours();
+        this.careerBook = new CareerBook(this, dto);
     }
 
-    public CareerBook getCareerBook() {
-        return careerBook;
+    public void update(CareerDtoPost dto, CareerBook careerBook) {
+        this.description = dto.getDescription();
+        this.legalDescription = dto.getLegalDescription();
+        this.status = dto.getStatus();
+        this.code = dto.getCode();
+        this.careerType = dto.getCareerType();
+        this.careerCredits = dto.getCareerCredits();
+        this.careerHours = dto.getCareerHours();
+        this.careerBook = careerBook;
     }
 
 }

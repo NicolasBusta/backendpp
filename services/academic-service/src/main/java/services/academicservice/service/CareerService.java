@@ -12,13 +12,13 @@ public interface CareerService {
 
     List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
-    CareerDtoGet fetchCareerById(Long id);
-
     CareerDtoGetTwo fetchAllCareersDto(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
-    ResponseEntity<String> createCareer(CareerDtoPost careerDtoPost);
+    CareerDtoGet fetchCareerById(Long id);
 
-    ResponseEntity<String> updateCareer(Long id, CareerDtoPost careerDtoPost);
+    ResponseEntity<String> createCareer(CareerDtoPost dto);
+
+    ResponseEntity<String> updateCareer(Long id, CareerDtoPost dto);
 
     ResponseEntity<String> deleteCareerById(Long id);
 

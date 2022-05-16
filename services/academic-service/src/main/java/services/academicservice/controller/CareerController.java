@@ -1,5 +1,9 @@
 package services.academicservice.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,42 +26,64 @@ public class CareerController {
         this.careerService = careerService;
     }
 
+    @Operation(summary = "Get all careers")
+    @ApiResponse(responseCode = "200", description = "Careers found")
     @GetMapping("/all")
     public List<CareerDtoGet> fetchAllCareers(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String direction) {
+            @Parameter(description = "number of page shown") @RequestParam(defaultValue = "0") Integer pageNo,
+            @Parameter(description = "number of careers display") @RequestParam(defaultValue = "20") Integer pageSize,
+            @Parameter(description = "field to be sorted by") @RequestParam(defaultValue = "id") String sortBy,
+            @Parameter(description = "direction of the sorting") @RequestParam(defaultValue = "ASC") String direction) {
         return careerService.fetchAllCareers(pageNo, pageSize, direction, sortBy);
     }
 
+    @Operation(summary = "Get all careers with more information")
+    @ApiResponse(responseCode = "200", description = "Careers found")
     @GetMapping("/dto/all")
-    public List<CareerDtoGetTwo> fetchAllCareersDto(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                    @RequestParam(defaultValue = "20") Integer pageSize,
-                                                    @RequestParam(defaultValue = "id") String sortBy,
-                                                    @RequestParam(defaultValue = "ASC") String direction) {
+    public List<CareerDtoGetTwo> fetchAllCareersDto(
+            @Parameter(description = "number of page shown") @RequestParam(defaultValue = "0") Integer pageNo,
+            @Parameter(description = "number of careers display") @RequestParam(defaultValue = "20") Integer pageSize,
+            @Parameter(description = "field to be sorted by") @RequestParam(defaultValue = "id") String sortBy,
+            @Parameter(description = "direction of the sorting") @RequestParam(defaultValue = "ASC") String direction) {
         return careerService.fetchAllCareersDto(pageNo, pageSize, sortBy, direction);
     }
 
+    @Operation(summary = "Get a career by its id")
+    @ApiResponse(responseCode = "200", description = "Career found")
     @GetMapping("/get/{id}")
-      public CareerDtoGet fetchCareerById(@PathVariable(value = "id") Long id) {
+      public CareerDtoGet fetchCareerById(
+            @Parameter(description = "id of career to be searched") @PathVariable(value = "id") Long id) {
           return careerService.fetchCareerById(id);
     }
 
+    @Operation(summary = "Create a new career")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Career created successfully"),
+            @ApiResponse(responseCode = "406", description = "Career already exists")
+    })
     @PostMapping("/create")
-    public ResponseEntity<String> createCareer(@RequestBody CareerDtoPost careerDtoPost) {
-        return careerService.createCareer(careerDtoPost);
+    public ResponseEntity<String> createCareer(@RequestBody CareerDtoPost dto) {
+        return careerService.createCareer(dto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCareerById(@PathVariable(value = "id") Long id) {
-        return careerService.deleteCareerById(id);
-    }
-
+    @Operation(summary = "Update a career by its id and new field values")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Career updated successfully"),
+            @ApiResponse(responseCode = "406", description = "Career already exists")
+    })
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateCareer(@PathVariable(value = "id") Long id,
-                                                @RequestBody CareerDtoPost careerDtoPost) {
-        return careerService.updateCareer(id, careerDtoPost);
+    public ResponseEntity<String> updateCareer(
+            @Parameter(description = "id of career to be searched") @PathVariable(value = "id") Long id,
+            @RequestBody CareerDtoPost dto) {
+        return careerService.updateCareer(id, dto);
+    }
+
+    @Operation(summary = "Delete a career by its id")
+    @ApiResponse(responseCode = "200", description = "Career deleted successfully")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCareerById(
+            @Parameter(description = "id of career to be searched") @PathVariable(value = "id") Long id) {
+        return careerService.deleteCareerById(id);
     }
 
 }

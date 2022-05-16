@@ -9,4 +9,5 @@ public class AcademicServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AcademicServiceApplication.class, args);
 	}
+
 }

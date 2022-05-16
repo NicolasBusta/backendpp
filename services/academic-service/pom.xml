@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>services</groupId>
 	<artifactId>academic-service</artifactId>
-	<version>0.0.12-SNAPSHOT</version>
+	<version>0.0.16-SNAPSHOT</version>
 	<name>academic-service</name>
 	<description>BackendPP</description>
 	<properties>
@@ -55,14 +55,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.1.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.4</version>
 		</dependency>
 
     </dependencies>

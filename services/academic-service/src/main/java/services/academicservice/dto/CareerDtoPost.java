@@ -39,4 +39,11 @@ public class CareerDtoPost {
     @NotNull(message = "Invalid Input")
     private Long careerHours;
 
+    @Positive
+    @NotNull(message = "Invalid Input")
+    private Short book;
+
+    @Positive
+    @NotNull(message = "Invalid Input")
+    private Short invoice;
 }
