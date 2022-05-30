@@ -15,5 +15,7 @@ public interface DegreeService {
 	
 	ResponseEntity<String> degreeCreation(DegreeDtoPost degreeDtoPost);
 	
+	ResponseEntity<String> degreeDelete(Long id);
 	
+	ResponseEntity<String> degreeUpdate(Long id, DegreeDtoPost degreeDtoPost);
 }

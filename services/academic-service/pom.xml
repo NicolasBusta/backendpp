@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>services</groupId>
 	<artifactId>academic-service</artifactId>
-	<version>0.0.12-SNAPSHOT</version>
+	<version>0.0.15-SNAPSHOT</version>
 	<name>academic-service</name>
 	<description>BackendPP</description>
 	<properties>
