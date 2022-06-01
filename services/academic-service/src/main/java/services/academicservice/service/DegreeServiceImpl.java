@@ -44,7 +44,7 @@ public class DegreeServiceImpl {
 	
 	public ResponseEntity<String> degreeDelete (Long id){
 		degreeRepository.deleteById(id);
-		return new ResponseEntity<String>("Degree delate successfully", HttpStatus.OK);
+		return new ResponseEntity<String>("Degree delete successfully", HttpStatus.OK);
 	}
 	
 	public ResponseEntity<String> degreeUpdate (DegreeDtoPost degreeDtoPost, Long id){

@@ -47,7 +47,7 @@ public class DegreeController {
 		 return degreeService.degreeDelete(id);
 	}
 	
-	@PutMapping("/{id}/update")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<String> degreeUpdate(@PathVariable(value = "id") Long id, @RequestBody DegreeDtoPost degreeDtoPost){
 	       return degreeService.degreeUpdate(degreeDtoPost, id );
 	    }
