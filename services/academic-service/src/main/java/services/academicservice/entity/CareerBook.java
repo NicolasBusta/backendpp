@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "ACADEMIC_CAREERS_BOOKS", schema="academic")
+@Table(name = "ACADEMIC_CAREERS_BOOKS", schema = "academic")
 public class CareerBook {
 
     @Id

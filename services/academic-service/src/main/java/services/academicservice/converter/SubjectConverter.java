@@ -8,7 +8,21 @@ public class SubjectConverter {
 
     public SubjectDtoGet entityToDTO(Subject subject) {
         SubjectDtoGet dto = new SubjectDtoGet();
+        dto.setSubjectCode(subject.getSubjectCode());
         dto.setSubjectDescription(subject.getSubjectDescription());
+        Short subjectType = subject.getSubjectType();
+        if (subjectType == 13) {
+            dto.setSubjectType("Bimestral");
+        } else if (subjectType == 127) {
+            dto.setSubjectType("Práctica");
+        } else if (subjectType == 128) {
+            dto.setSubjectType("Seminario");
+        } else if (subjectType == 129) {
+            dto.setSubjectType("Examen");
+        }
+        dto.setSubjectStatus(subject.getSubjectStatus());
+        dto.setSubjectCredits(subject.getSubjectCredits());
+        dto.setSubjectHours(subject.getSubjectHours());
 
         return dto;
     }

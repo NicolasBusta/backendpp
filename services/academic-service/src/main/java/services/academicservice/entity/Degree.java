@@ -1,31 +1,27 @@
 package services.academicservice.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import services.academicservice.dto.DegreeDtoPost;
 
-
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name ="ACADEMIC_DEGREES",schema = "academic")
+@Table(name ="ACADEMIC_DEGREES", schema = "academic")
 public class Degree {
+
 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)/* generador incremental de registros*/
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="ID")
 	private Long id;
 	
-	@Column(name = "DEGREE_DESCRIPTION")/* generador Getters*/
-	private String descripcion; /* propiedades*/
+	@Column(name = "DEGREE_DESCRIPTION")
+	private String descripcion;
 	
 	@Column(name = "DEGREE_TYPE")
 	private Short tipo;
@@ -37,4 +33,5 @@ public class Degree {
 		descripcion = degreeDtoPost.getDescripcion();
 		tipo = degreeDtoPost.getTipo();
 	}
+
 }
