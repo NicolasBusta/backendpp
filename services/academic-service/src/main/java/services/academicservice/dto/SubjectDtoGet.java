@@ -9,6 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SubjectDtoGet {
 
-    public String subjectDescription;
-
-}
+    private String subjectCode;
+	private String subjectDescription;
+	private Boolean subjectStatus;
+	private Short subjectDuration;
+	private Short subjectType;
+	private Long subjectHours;
+	private Long subjectCredits;
