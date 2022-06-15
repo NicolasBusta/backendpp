@@ -35,3 +35,6 @@ build/
 ### Properties ###
 src/main/resources/application.properties
 src/main/resources/application-TEST.properties
+
+### Eclipse ###
+bin/
