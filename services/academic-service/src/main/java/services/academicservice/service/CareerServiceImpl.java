@@ -8,25 +8,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import services.academicservice.converter.CareerConverter;
 import services.academicservice.dto.CareerDtoGet;
 import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
 import services.academicservice.entity.Career;
-import services.academicservice.entity.CareerBook;
 import services.academicservice.exception.CareerNotFoundException;
 import services.academicservice.repository.CareerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CareerServiceImpl {
 
     private CareerRepository careerRepository;
+    private CareerConverter careerConverter;
+
 
     public CareerServiceImpl(CareerRepository careerRepository) {
         this.careerRepository = careerRepository;
+        this.careerConverter = new CareerConverter();
     }
 
     /**
@@ -35,7 +37,7 @@ public class CareerServiceImpl {
      * @param pageSize number of objects shown per page
      * @param direction ascendant or descendant
      * @param sortBy field to be ordered by
-     * @return ist of career DTO objects
+     * @return list of career DTO objects
      */
     public List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String direction, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
@@ -43,8 +45,11 @@ public class CareerServiceImpl {
         if (careers.isEmpty()) {
             throw new CareerNotFoundException("No careers found");
         }
-        List<CareerDtoGet> careerDtoGet=careers.stream().map(CareerDtoGet::new).collect(Collectors.toList());
-        return careerDtoGet;
+        List<CareerDtoGet> listDTO = new ArrayList<>();
+        for (Career career : careers) {
+        	listDTO.add(careerConverter.entityToBasicDTO(career));
+		}
+        return listDTO;
     }
 
     /**
@@ -61,11 +66,11 @@ public class CareerServiceImpl {
         if (careerList.isEmpty()) {
             throw new CareerNotFoundException("No careers found");
         }
-        List<CareerDtoGetTwo> careerDtoGetTwoList = new ArrayList<>();
+        List<CareerDtoGetTwo> listDTO = new ArrayList<>();
         for (Career career : careerList) {
-            careerDtoGetTwoList.add(new CareerDtoGetTwo(career, career.getCareerBook()));
-        }
-        return careerDtoGetTwoList;
+        	listDTO.add(careerConverter.entityToDTO(career));
+		}
+        return listDTO;
     }
 
     /**
@@ -76,25 +81,26 @@ public class CareerServiceImpl {
     public CareerDtoGet fetchCareerById(Long id) {
         Career career = careerRepository.findById(id)
                   .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
-        CareerDtoGet careerDtoGet = new CareerDtoGet(career);
+        
+        CareerDtoGet careerDtoGet = careerConverter.entityToBasicDTO(career);
         return careerDtoGet;
     }
 
     /**
      *
      * @param dto DTO which contains specified fields for different tables
-     * @return responseEntity object which contains a message and a http status
+     * @return responseEntity object which contains a message and a HTTP status
      */
     public ResponseEntity<String> createCareer(CareerDtoPost dto) {
         String newDescription = dto.getDescription();
         String newLegalDescription = dto.getLegalDescription();
         String newCode = dto.getCode();
         if (careerRepository.findAllCareersBy(newDescription, newLegalDescription, newCode).isEmpty()) {
-            Career career = new Career(dto);
+        	Career career = careerConverter.dtoToEntity(dto);
             careerRepository.save(career);
             return new ResponseEntity<String>("Career created successfully", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<String>("Career already exists", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<String>("Career already exists", HttpStatus.CONFLICT);
         }
     }
 
@@ -102,22 +108,30 @@ public class CareerServiceImpl {
      *
      * @param id id of career to be searched
      * @param dto DTO which contains specified fields for different tables
-     * @return responseEntity object which contains a message and a http status
+     * @return responseEntity object which contains a message and a HTTP status
      */
     public ResponseEntity<String> updateCareer(Long id, CareerDtoPost dto) {
-        Career updatedCareer = careerRepository.findById(id)
+        Career career = careerRepository.findById(id)
                 .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
         String newDescription = dto.getDescription();
         String newLegalDescription = dto.getLegalDescription();
         String newCode = dto.getCode();
         int careers = careerRepository.findAllCareersBy(id, newDescription, newLegalDescription, newCode).size();
         if (careers >= 1) {
-            return new ResponseEntity<String>("Career already exists", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<String>("Career already exists", HttpStatus.CONFLICT);
         } else {
-            CareerBook updatedCareerBook = updatedCareer.getCareerBook();
-            updatedCareerBook.update(dto);
-            updatedCareer.update(dto, updatedCareerBook);
-            careerRepository.save(updatedCareer);
+
+        	career.setDescription(dto.getDescription());
+            career.setLegalDescription(dto.getLegalDescription());
+            career.setStatus(dto.getStatus());
+            career.setCode(dto.getCode());
+            career.setCareerType(dto.getCareerType());
+            career.setCareerCredits(dto.getCareerCredits());
+            career.setCareerHours(dto.getCareerHours());
+            career.getCareerBook().setBook(dto.getBook());
+            career.getCareerBook().setInvoice(dto.getInvoice());
+            
+            careerRepository.save(career);
             return new ResponseEntity<String>("Career updated successfully", HttpStatus.OK);
         }
     }
@@ -125,7 +139,7 @@ public class CareerServiceImpl {
     /**
      *
      * @param id id of career to be searched
-     * @return responseEntity object which contains a message and a http status
+     * @return responseEntity object which contains a message and a HTTP status
      */
     public ResponseEntity<String> deleteCareerById(Long id) {
         Career career = careerRepository.findById(id)

@@ -1,11 +1,16 @@
 package services.academicservice.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import services.academicservice.dto.SectionDtoGet;
+import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.SectionServiceImpl;
-import services.academicservice.utils.ApiGet;
 
 import java.util.List;
 
@@ -20,17 +25,32 @@ public class SectionController {
         this.sectionService = sectionService;
     }
 
-    @ApiGet
+    @ApiOperation(value = "Retorna todas las secciones")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @GetMapping
     public List<SectionDtoGet> fetchAllSections(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String direction) {
+    		@ApiParam(name = "pageNo", value = "Número de página", required = false)
+                @RequestParam(defaultValue = "0") Integer pageNo,
+    		@ApiParam(name = "pageSize", value = "Tamaño de página", required = false)
+                @RequestParam(defaultValue = "20") Integer pageSize,
+    		@ApiParam(name = "sortBy", value = "Campo de ordenamiento", required = false)
+                @RequestParam(defaultValue = "id") String sortBy,
+    		@ApiParam(name = "direction", value = "Dirección de ordenamiento", required = false)
+                @RequestParam(defaultValue = "ASC") String direction) {
         return sectionService.fetchAllSections(pageNo, pageSize, sortBy, direction);
     }
 
-    @ApiGet("/{id}")
-    public SectionDtoGet getSectionById(@PathVariable Long id) {
+    @ApiOperation(value = "Retorna una sección")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @GetMapping("/{id}")
+    public SectionDtoGet getSectionById(
+    		@ApiParam(name = "id", value = "ID de la carrera", required = true) @PathVariable Long id) {
         return sectionService.fetchSectionById(id);
     }
 }
