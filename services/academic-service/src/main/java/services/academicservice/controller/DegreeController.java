@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import services.academicservice.dto.CareerDtoPost;
 import services.academicservice.dto.DegreeDtoGet;
 import services.academicservice.dto.DegreeDtoPost;
 import services.academicservice.service.DegreeServiceImpl;
