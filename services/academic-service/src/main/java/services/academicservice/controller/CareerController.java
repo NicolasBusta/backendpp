@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import services.academicservice.dto.CareerDtoGet;
-import services.academicservice.dto.CareerDtoGetTwo;
 import services.academicservice.dto.CareerDtoPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.CareerServiceImpl;
@@ -35,7 +34,7 @@ public class CareerController {
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @GetMapping
-    public List<CareerDtoGetTwo> fetchAllCareersDto(
+    public List<CareerDtoGet> fetchAllCareersDto(
     		@ApiParam(name = "pageNo", value = "Número de página", required = false)
                 @RequestParam(defaultValue = "0") Integer pageNo,
     		@ApiParam(name = "pageSize", value = "Tamaño de página", required = false)
@@ -44,7 +43,7 @@ public class CareerController {
                 @RequestParam(defaultValue = "id") String sortBy,
     		@ApiParam(name = "direction", value = "Dirección de ordenamiento", required = false)
                 @RequestParam(defaultValue = "asc") String direction) {
-        return careerService.fetchAllCareersDto(pageNo, pageSize, sortBy, direction);
+        return careerService.fetchAllCareers(pageNo, pageSize, sortBy, direction);
     }
 
     @ApiOperation(value = "Retorna una carrera")

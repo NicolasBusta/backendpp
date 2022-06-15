@@ -6,12 +6,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import services.academicservice.dto.SectionDtoGet;
+import services.academicservice.dto.SectionDtoPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.SectionServiceImpl;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -53,4 +56,17 @@ public class SectionController {
     		@ApiParam(name = "id", value = "ID de la carrera", required = true) @PathVariable Long id) {
         return sectionService.fetchSectionById(id);
     }
+
+    @ApiOperation(value = "Crea una nueva sección")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class),
+            @ApiResponse(code = 409, message = "Conflict")})
+    @PostMapping
+    public ResponseEntity<String> createSection(
+            @ApiParam(name = "DTO", value = "Datos de sección", required = true) @Valid @RequestBody SectionDtoPost dto) {
+        return sectionService.createSection(dto);
+    }
+
 }

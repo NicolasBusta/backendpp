@@ -9,9 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CareerDtoGet {
 
+    private Long id;
     private String description;
     private Boolean status;
     private String code;
-    private Short careerType;
+    private String careerType;
     
 }

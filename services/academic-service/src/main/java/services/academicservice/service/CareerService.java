@@ -12,7 +12,7 @@ public interface CareerService {
 
     List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
-    CareerDtoGetTwo fetchAllCareersDto(Integer pageNo, Integer pageSize, String sortBy, String direction);
+    List<CareerDtoGetTwo> fetchAllCareersDto(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
     CareerDtoGet fetchCareerById(Long id);
 

@@ -1,6 +1,7 @@
 package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class Career {
     private Short careerType;
 
     @Column(name = "CAREER_CREDITS")
-    private long careerCredits;
+    private Long careerCredits;
 
     @Column(name = "CAREER_HOURS")
     private Long careerHours;

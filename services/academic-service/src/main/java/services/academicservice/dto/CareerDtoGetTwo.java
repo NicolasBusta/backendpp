@@ -15,7 +15,7 @@ public class CareerDtoGetTwo {
     private Boolean status;
     private String code;
     private String sapCode;
-    private long careerCredits;
+    private Long careerCredits;
     private Long careerHours;
     private Short book;
 

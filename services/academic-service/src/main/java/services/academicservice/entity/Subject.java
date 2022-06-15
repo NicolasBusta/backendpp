@@ -48,4 +48,9 @@ public class Subject {
     @JsonBackReference
     private Set<Section> sections;
 
+    /*
+    @OneToOne(mappedBy = "subject", cascade = CascadeType.ALL)
+    private SubjectCompetition subjectCompetition;
+    */
+
 }

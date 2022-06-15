@@ -25,7 +25,6 @@ public class CareerServiceImpl {
     private CareerRepository careerRepository;
     private CareerConverter careerConverter;
 
-
     public CareerServiceImpl(CareerRepository careerRepository) {
         this.careerRepository = careerRepository;
         this.careerConverter = new CareerConverter();
@@ -39,7 +38,7 @@ public class CareerServiceImpl {
      * @param sortBy field to be ordered by
      * @return list of career DTO objects
      */
-    public List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String direction, String sortBy) {
+    public List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
         Page<Career> careers = careerRepository.findAll(paging);
         if (careers.isEmpty()) {
@@ -125,7 +124,11 @@ public class CareerServiceImpl {
             career.setLegalDescription(dto.getLegalDescription());
             career.setStatus(dto.getStatus());
             career.setCode(dto.getCode());
-            career.setCareerType(dto.getCareerType());
+            if (dto.getCareerType().equals("Profesional")) {
+                career.setCareerType((short) 1);
+            } else if (dto.getCareerType().equals("Técnico de Nivel Superior")) {
+                career.setCareerType((short) 2);
+            }
             career.setCareerCredits(dto.getCareerCredits());
             career.setCareerHours(dto.getCareerHours());
             career.getCareerBook().setBook(dto.getBook());
