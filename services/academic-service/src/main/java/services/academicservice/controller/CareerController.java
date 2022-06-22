@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/careers")
+@CrossOrigin(origins = "*", methods= RequestMethod.GET)
 public class CareerController {
 
     private CareerServiceImpl careerService;

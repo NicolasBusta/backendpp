@@ -4,11 +4,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import services.academicservice.dto.SectionDtoGet;
 import services.academicservice.dto.SectionDtoPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
@@ -67,6 +65,30 @@ public class SectionController {
     public ResponseEntity<String> createSection(
             @ApiParam(name = "DTO", value = "Datos de sección", required = true) @Valid @RequestBody SectionDtoPost dto) {
         return sectionService.createSection(dto);
+    }
+
+    @ApiOperation(value = "Actualiza una carrera")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class),
+            @ApiResponse(code = 409, message = "Conflict")})
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCareer(
+            @ApiParam(name = "id", value = "ID de la sección", required = true) @PathVariable(value = "id") Long id,
+            @ApiParam(name = "DTO", value = "Datos de sección", required = true) @Valid @RequestBody SectionDtoPost dto) {
+        return sectionService.updateSection(id, dto);
+    }
+
+    @ApiOperation(value = "Elimina una carrera")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCareerById(
+            @ApiParam(name = "id", value = "ID de la sección", required = true) @PathVariable(value = "id") Long id) {
+        return sectionService.deleteSectionById(id);
     }
 
 }

@@ -18,8 +18,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
                     "FROM Subject sj " +
                     "WHERE sj.subjectDescription = :subjectDescription"
     )
-    Subject findSubjectBy(
-            @Param("subjectDescription") String subjectDescription);
+    Subject findSubjectBy(@Param("subjectDescription") String subjectDescription);
 
     @Query(
             "SELECT DISTINCT s.subjectDescription " +

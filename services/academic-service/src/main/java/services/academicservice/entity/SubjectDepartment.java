@@ -20,10 +20,10 @@ public class SubjectDepartment {
 
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
-    private Department department;
+    private Department departmentSubject;
 
     @OneToOne
     @JoinColumn(name = "SUBJECT_ID")
-    private Subject subject;
+    private Subject subjectDepartment;
 
 }

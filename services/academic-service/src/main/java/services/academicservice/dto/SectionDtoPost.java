@@ -17,6 +17,8 @@ public class SectionDtoPost {
 
     private Boolean sectionStatus;
 
+    private Boolean sectionEnable;
+
     @Pattern(regexp=REGEX,message = "Invalid Input")
     @NotNull
     private String sectionName;

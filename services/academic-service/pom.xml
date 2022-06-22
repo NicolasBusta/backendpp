@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>services</groupId>
 	<artifactId>academic-service</artifactId>
-	<version>0.0.18-SNAPSHOT</version>
+	<version>0.0.19-SNAPSHOT</version>
 	<name>academic-service</name>
 	<description>BackendPP</description>
 	<properties>
@@ -69,6 +69,11 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		    <version>2.7.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
     </dependencies>

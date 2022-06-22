@@ -7,15 +7,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import services.academicservice.converter.SectionConverter;
 import services.academicservice.dto.SectionDtoGet;
 import services.academicservice.dto.SectionDtoPost;
+import services.academicservice.entity.Department;
 import services.academicservice.entity.Section;
+import services.academicservice.entity.Subject;
 import services.academicservice.exception.SectionNotFoundException;
-import services.academicservice.repository.SectionRepository;
-import services.academicservice.repository.SubjectRepository;
-import services.academicservice.repository.TermRepository;
+import services.academicservice.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,7 @@ public class SectionServiceImpl {
     private SectionRepository sectionRepository;
     private TermRepository termRepository;
     private SubjectRepository subjectRepository;
+    private DepartmentRepository departmentRepository;
     private SectionConverter sectionConverter;
 
     public SectionServiceImpl(SectionRepository sectionRepository, TermRepository termRepository, SubjectRepository subjectRepository) {
@@ -66,7 +66,7 @@ public class SectionServiceImpl {
     /**
      *
      * @param dto DTO which contains specified fields for different tables
-     * @return responseEntity object which contains a message and a HTTP status
+     * @return responseEntity object which contains a message and an HTTP status
      */
     public ResponseEntity<String> createSection(SectionDtoPost dto) {
         String newName = dto.getSectionName();
@@ -77,6 +77,65 @@ public class SectionServiceImpl {
         } else {
             return new ResponseEntity<String>("Section already exists", HttpStatus.CONFLICT);
         }
+    }
+
+    /**
+     *
+     * @param id id of section to be searched
+     * @param dto DTO which contains specified fields for different tables
+     * @return responseEntity object which contains a message and an HTTP status
+     */
+    public ResponseEntity<String> updateSection(Long id, SectionDtoPost dto) {
+        Section section = sectionRepository.findById(id)
+                .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
+        String newName = dto.getSectionName();
+        int sections = sectionRepository.findAllSectionsBy(newName).size();
+        if (sections >= 1) {
+            return new ResponseEntity<String>("Section already exists", HttpStatus.CONFLICT);
+        } else {
+            section.setSectionEnable(dto.getSectionEnable());
+            section.setSectionName(dto.getSectionName());
+
+            if (dto.getModalityType().equals("Online Plus")) {
+                section.setModalityType((short) 4);
+            } else if (dto.getModalityType().equals("Presencial")) {
+                section.setModalityType((short) 5);
+            } else if (dto.getModalityType().equals("Semipresencial")) {
+                section.setModalityType((short) 6);
+            }
+
+            section.getTerm().setTermDescription(dto.getTermDescription());
+
+            if (dto.getLmsType().equals("Canvas")) {
+                section.setModalityType((short) 14);
+            } else if (dto.getLmsType().equals("EduSoft")) {
+                section.setModalityType((short) 130);
+            }
+
+            Subject subject = subjectRepository.findSubjectBy(dto.getSubjectDescription());
+            section.setSubject(subject);
+
+            Department department = departmentRepository.findDepartmentBy(dto.getDepartmentName());
+            subject.getSubjectDepartment().setDepartmentSubject(department);
+
+            section.setSectionSize(dto.getSectionSize());
+
+            sectionRepository.save(section);
+            subjectRepository.save(subject);
+            return new ResponseEntity<String>("Section updated successfully", HttpStatus.OK);
+        }
+    }
+
+    /**
+     *
+     * @param id id of section to be searched
+     * @return responseEntity object which contains a message and an HTTP status
+     */
+    public ResponseEntity<String> deleteSectionById(Long id) {
+        Section section = sectionRepository.findById(id)
+                .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
+        sectionRepository.delete(section);
+        return new ResponseEntity<String>("Section deleted successfully", HttpStatus.OK);
     }
 
 }

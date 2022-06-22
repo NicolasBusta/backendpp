@@ -1,7 +1,6 @@
 package services.academicservice.service;
 
 import org.springframework.http.ResponseEntity;
-
 import services.academicservice.dto.SectionDtoGet;
 import services.academicservice.dto.SectionDtoPost;
 
@@ -14,5 +13,9 @@ public interface SectionService {
     SectionDtoGet fetchSectionById(Long id);
 
     ResponseEntity<String> createSection(SectionDtoPost dto);
+
+    ResponseEntity<String> updateSection(Long id, SectionDtoPost dto);
+
+    ResponseEntity<String> deleteSectionById(Long id);
 
 }

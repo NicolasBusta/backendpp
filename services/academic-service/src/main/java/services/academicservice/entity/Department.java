@@ -28,7 +28,7 @@ public class Department {
     @Column(name = "DEPARTMENT_NAME")
     private String departmentName;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "departmentSubject", cascade = CascadeType.ALL)
     private Set<SubjectDepartment> subjectDepartments;
 
 }
