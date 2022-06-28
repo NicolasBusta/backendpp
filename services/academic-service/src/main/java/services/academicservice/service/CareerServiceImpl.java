@@ -1,5 +1,6 @@
 package services.academicservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CareerServiceImpl {
+public class CareerServiceImpl implements CareerService {
 
-    private CareerRepository careerRepository;
-    private CareerConverter careerConverter;
+    private final CareerRepository careerRepository;
+    private final CareerConverter careerConverter;
 
+    @Autowired
     public CareerServiceImpl(CareerRepository careerRepository) {
         this.careerRepository = careerRepository;
         this.careerConverter = new CareerConverter();
@@ -58,9 +60,8 @@ public class CareerServiceImpl {
     public CareerDTOGet fetchCareerById(Long id) {
         Career career = careerRepository.findById(id)
                   .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
-        
-        CareerDTOGet careerDtoGet = careerConverter.entityToDTO(career);
-        return careerDtoGet;
+
+        return careerConverter.entityToDTO(career);
     }
 
     /**
@@ -75,9 +76,9 @@ public class CareerServiceImpl {
         if (careerRepository.findAllCareersBy(newDescription, newLegalDescription, newCode).isEmpty()) {
         	Career career = careerConverter.dtoToEntity(dto);
             careerRepository.save(career);
-            return new ResponseEntity<String>("Career created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Career created successfully", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<String>("Career already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Career already exists", HttpStatus.CONFLICT);
         }
     }
 
@@ -95,7 +96,7 @@ public class CareerServiceImpl {
         String newCode = dto.getCode();
         int careers = careerRepository.findAllCareersBy(id, newDescription, newLegalDescription, newCode).size();
         if (careers >= 1) {
-            return new ResponseEntity<String>("Career already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Career already exists", HttpStatus.CONFLICT);
         } else {
 
         	career.setDescription(dto.getDescription());
@@ -113,7 +114,7 @@ public class CareerServiceImpl {
             career.getCareerBook().setInvoice(dto.getInvoice());
             
             careerRepository.save(career);
-            return new ResponseEntity<String>("Career updated successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Career updated successfully", HttpStatus.OK);
         }
     }
 
@@ -126,7 +127,7 @@ public class CareerServiceImpl {
         Career career = careerRepository.findById(id)
                         .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
         careerRepository.delete(career);
-        return new ResponseEntity<String>("Career deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Career deleted successfully", HttpStatus.OK);
     }
 
 }

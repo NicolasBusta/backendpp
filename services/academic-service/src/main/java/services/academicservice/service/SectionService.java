@@ -1,6 +1,7 @@
 package services.academicservice.service;
 
 import org.springframework.http.ResponseEntity;
+
 import services.academicservice.dto.SectionDTOGet;
 import services.academicservice.dto.SectionDTOPost;
 

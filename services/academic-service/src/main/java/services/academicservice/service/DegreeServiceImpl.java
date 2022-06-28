@@ -1,7 +1,6 @@
 package services.academicservice.service;
 
 import org.hibernate.ObjectNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,8 @@ import services.academicservice.repository.DegreeRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
-public class DegreeServiceImpl {
+public class DegreeServiceImpl implements DegreeService {
 
 	DegreeRepository degreeRepository;
 	DegreeConverter degreeConverter;
@@ -42,14 +40,14 @@ public class DegreeServiceImpl {
 	public DegreeDTOGet fetchDegree(Long id) {
 		Degree degree = degreeRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException(id, "Degree"));
-		DegreeDTOGet dto = degreeConverter.entityToDTO(degree);
-		return dto;
+
+		return degreeConverter.entityToDTO(degree);
 	}
 	
 	public ResponseEntity<String> createDegree(DegreeDTOPost dto) {
 		Degree degree = degreeConverter.dtoToEntity(dto);
 		degreeRepository.save(degree);
-		return new ResponseEntity<String>("Degree created successfully", HttpStatus.CREATED);
+		return new ResponseEntity<>("Degree created successfully", HttpStatus.CREATED);
 	}
 	
 	public ResponseEntity<String> updateDegree(Long id, DegreeDTOPost dto) {
@@ -58,12 +56,12 @@ public class DegreeServiceImpl {
 		degree.setDescription(dto.getDescription());
 		degree.setType(dto.getType());
         degreeRepository.save(degree);
-		return new ResponseEntity<String>("Degree updated successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Degree updated successfully", HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> deleteDegree(Long id) {
 		degreeRepository.deleteById(id);
-		return new ResponseEntity<String>("Degree deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Degree deleted successfully", HttpStatus.OK);
 	}
 
 }

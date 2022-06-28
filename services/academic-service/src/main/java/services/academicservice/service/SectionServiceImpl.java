@@ -1,6 +1,7 @@
 package services.academicservice.service;
 
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import services.academicservice.converter.SectionConverter;
 import services.academicservice.dto.SectionDTOGet;
 import services.academicservice.dto.SectionDTOPost;
@@ -19,23 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SectionServiceImpl {
+public class SectionServiceImpl implements SectionService {
 
-    private SectionRepository sectionRepository;
+    private final SectionRepository sectionRepository;
     private TermRepository termRepository;
     private SubjectRepository subjectRepository;
-    private DepartmentRepository departmentRepository;
-    private SectionTeacherRepository sectionTeacherRepository;
-    private TeacherRepository teacherRepository;
-    private SectionConverter sectionConverter;
+    private final DepartmentRepository departmentRepository;
+    private final SectionTeacherRepository sectionTeacherRepository;
+    private final TeacherRepository teacherRepository;
+    private final SectionConverter sectionConverter;
 
-
+    @Autowired
     public SectionServiceImpl(SectionRepository sectionRepository,
-                              TermRepository termRepository,
-                              SubjectRepository subjectRepository,
-                              DepartmentRepository departmentRepository,
-                              SectionTeacherRepository sectionTeacherRepository,
-                              TeacherRepository teacherRepository) {
+            TermRepository termRepository,
+            SubjectRepository subjectRepository,
+            DepartmentRepository departmentRepository,
+            SectionTeacherRepository sectionTeacherRepository,
+            TeacherRepository teacherRepository) {
         this.sectionRepository = sectionRepository;
         this.departmentRepository = departmentRepository;
         this.sectionTeacherRepository = sectionTeacherRepository;
@@ -45,17 +47,17 @@ public class SectionServiceImpl {
 
     /**
      *
-     * @param pageNo page number to display
-     * @param pageSize number of objects shown per page
+     * @param pageNo    page number to display
+     * @param pageSize  number of objects shown per page
      * @param direction ascendant or descendant
-     * @param sortBy field to be ordered by
+     * @param sortBy    field to be ordered by
      * @return list of section DTO objects
      */
     public List<SectionDTOGet> fetchAllSections(Integer pageNo, Integer pageSize, String sortBy, String direction) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
         Page<Section> sections = sectionRepository.findAll(paging);
         List<SectionDTOGet> sectionDtoGetList = new ArrayList<>();
-        for (Section section: sections) {
+        for (Section section : sections) {
             sectionDtoGetList.add(sectionConverter.entityToDTO(section));
         }
         return sectionDtoGetList;
@@ -69,8 +71,8 @@ public class SectionServiceImpl {
     public SectionDTOGet fetchSectionById(Long id) {
         Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
-        SectionDTOGet sectionDtoGet = sectionConverter.entityToDTO(section);
-        return sectionDtoGet;
+
+        return sectionConverter.entityToDTO(section);
     }
 
     /**
@@ -83,15 +85,15 @@ public class SectionServiceImpl {
         if (sectionRepository.findAllSectionsBy(newName).isEmpty()) {
             Section section = sectionConverter.dtoToEntity(dto);
             sectionRepository.save(section);
-            return new ResponseEntity<String>("Section created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Section created successfully", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<String>("Section already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Section already exists", HttpStatus.CONFLICT);
         }
     }
 
     /**
      *
-     * @param id id of section to be searched
+     * @param id  id of section to be searched
      * @param dto DTO which contains specified fields for different tables
      * @return responseEntity object which contains a message and an HTTP status
      */
@@ -101,17 +103,21 @@ public class SectionServiceImpl {
         String newName = dto.getSectionName();
         int sections = sectionRepository.findAllSectionsBy(newName).size();
         if (sections >= 1) {
-            return new ResponseEntity<String>("Section already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Section already exists", HttpStatus.CONFLICT);
         } else {
             section.setSectionEnable(dto.getSectionEnable());
             section.setSectionName(dto.getSectionName());
 
-            if (dto.getModalityType().equals("Online Plus")) {
-                section.setModalityType((short) 4);
-            } else if (dto.getModalityType().equals("Presencial")) {
-                section.setModalityType((short) 5);
-            } else if (dto.getModalityType().equals("Semipresencial")) {
-                section.setModalityType((short) 6);
+            switch (dto.getModalityType()) {
+                case "Online Plus":
+                    section.setModalityType((short) 4);
+                    break;
+                case "Presencial":
+                    section.setModalityType((short) 5);
+                    break;
+                case "Semipresencial":
+                    section.setModalityType((short) 6);
+                    break;
             }
 
             section.getTerm().setTermDescription(dto.getTermDescription());
@@ -122,8 +128,6 @@ public class SectionServiceImpl {
                 section.setModalityType((short) 130);
             }
 
-            /* ////////////////////////////////////////// */
-
             Subject subject = subjectRepository.findSubjectBy(dto.getSubjectDescription());
             section.setSubject(subject);
 
@@ -131,8 +135,6 @@ public class SectionServiceImpl {
             subject.getSubjectDepartment().setDepartmentSubject(department);
 
             section.setSectionSize(dto.getSectionSize());
-
-            /* ////////////////////////////////////////// */
 
             Long sectionId = section.getId();
             SectionTeacher sectionTeacher = sectionTeacherRepository.findById(sectionId)
@@ -149,12 +151,10 @@ public class SectionServiceImpl {
             Teacher teacher = teacherRepository.findByUserId(userId);
             sectionTeacher.setTeacher(teacher);
 
-            /* ////////////////////////////////////////// */
-
             sectionRepository.save(section);
             subjectRepository.save(subject);
             sectionTeacherRepository.save(sectionTeacher);
-            return new ResponseEntity<String>("Section updated successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Section updated successfully", HttpStatus.OK);
         }
     }
 
@@ -167,7 +167,7 @@ public class SectionServiceImpl {
         Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
         sectionRepository.delete(section);
-        return new ResponseEntity<String>("Section deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Section deleted successfully", HttpStatus.OK);
     }
 
 }

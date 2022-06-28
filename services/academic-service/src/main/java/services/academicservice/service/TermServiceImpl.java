@@ -1,5 +1,6 @@
 package services.academicservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.converter.TermConverter;
@@ -11,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TermServiceImpl {
+public class TermServiceImpl implements TermService {
 
-    private TermRepository termRepository;
-    private TermConverter termConverter;
+    private final TermRepository termRepository;
+    private final TermConverter termConverter;
 
+    @Autowired
     public TermServiceImpl(TermRepository termRepository) {
         this.termRepository = termRepository;
         this.termConverter = new TermConverter();

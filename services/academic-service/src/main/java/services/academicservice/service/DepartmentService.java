@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface DepartmentService {
 
-    public List<DepartmentDTOGet> fetchAllDepartments();
+    List<DepartmentDTOGet> fetchAllDepartments();
 
 }

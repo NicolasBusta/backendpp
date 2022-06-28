@@ -1,5 +1,6 @@
 package services.academicservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.converter.DepartmentConverter;
@@ -11,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DepartmentServiceImpl {
+public class DepartmentServiceImpl implements DepartmentService {
 
-    private DepartmentRepository departmentRepository;
-    private DepartmentConverter departmentConverter;
+    private final DepartmentRepository departmentRepository;
+    private final DepartmentConverter departmentConverter;
 
+    @Autowired
     public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
         this.departmentConverter = new DepartmentConverter();

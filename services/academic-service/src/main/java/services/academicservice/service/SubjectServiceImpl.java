@@ -1,5 +1,6 @@
 package services.academicservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SubjectServiceImpl {
+public class SubjectServiceImpl implements SubjectService {
 
-    private SubjectRepository subjectRepository;
-    private SubjectConverter subjectConverter;
+    private final SubjectRepository subjectRepository;
+    private final SubjectConverter subjectConverter;
 
+    @Autowired
     public SubjectServiceImpl(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
         this.subjectConverter = new SubjectConverter();
     }
 
+    /**
+     *
+     * @return list of subjects
+     */
     public List<SubjectDTOGet> fetchAllSubjects() {
         List<String> subjectList = subjectRepository.getDistinctSubjectsByName();
         List<SubjectDTOGet> dtoList = new ArrayList<>();
@@ -46,9 +52,9 @@ public class SubjectServiceImpl {
         if (subjectRepository.findAllSubjectsBy(newSubjectDescription, newSubjectCode).isEmpty()) {
             Subject subject = subjectConverter.dtoToEntity(dto);
             subjectRepository.save(subject);
-            return new ResponseEntity<String>("Subject created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Subject created successfully", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<String>("Subject already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Subject already exists", HttpStatus.CONFLICT);
         }
     }
 
