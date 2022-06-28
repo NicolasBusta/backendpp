@@ -1,21 +1,22 @@
 package services.academicservice.service;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 
-import services.academicservice.dto.DegreeDtoGet;
-import services.academicservice.dto.DegreeDtoPost;
-import services.academicservice.entity.Degree;
+import services.academicservice.dto.DegreeDTOGet;
+import services.academicservice.dto.DegreeDTOPost;
+
+import java.util.List;
 
 public interface DegreeService {
-	List<DegreeDtoGet> fetchAllDegrees();
+
+	List<DegreeDTOGet> fetchDegrees();
 	
-	DegreeDtoGet fetchIdDegrees(Long id);
+	DegreeDTOGet fetchDegree(Long id);
 	
-	ResponseEntity<String> degreeCreation(DegreeDtoPost degreeDtoPost);
-	
-	ResponseEntity<String> degreeDelete(Long id);
-	
-	ResponseEntity<String> degreeUpdate(Long id, DegreeDtoPost degreeDtoPost);
+	ResponseEntity<String> createDegree(DegreeDTOPost dto);
+
+	ResponseEntity<String> updateDegree(Long id, DegreeDTOPost dto);
+
+	ResponseEntity<String> deleteDegree(Long id);
+
 }

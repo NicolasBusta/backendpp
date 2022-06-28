@@ -3,7 +3,7 @@ package services.academicservice.service;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.converter.DepartmentConverter;
-import services.academicservice.dto.DepartmentDtoGet;
+import services.academicservice.dto.DepartmentDTOGet;
 import services.academicservice.entity.Department;
 import services.academicservice.repository.DepartmentRepository;
 
@@ -21,9 +21,9 @@ public class DepartmentServiceImpl {
         this.departmentConverter = new DepartmentConverter();
     }
 
-    public List<DepartmentDtoGet> fetchAllDepartments() {
+    public List<DepartmentDTOGet> fetchAllDepartments() {
         List<Department> departmentList = departmentRepository.findAll();
-        List<DepartmentDtoGet> dtoList = new ArrayList<>();
+        List<DepartmentDTOGet> dtoList = new ArrayList<>();
         for (Department department : departmentList) {
             dtoList.add(departmentConverter.entityToDTO(department));
         }

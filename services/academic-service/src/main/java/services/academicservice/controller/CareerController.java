@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import services.academicservice.dto.CareerDtoGet;
-import services.academicservice.dto.CareerDtoPost;
+import services.academicservice.dto.CareerDTOGet;
+import services.academicservice.dto.CareerDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.CareerServiceImpl;
 
@@ -19,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/careers")
-@CrossOrigin(origins = "*", methods= RequestMethod.GET)
 public class CareerController {
 
     private CareerServiceImpl careerService;
@@ -35,7 +34,7 @@ public class CareerController {
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @GetMapping
-    public List<CareerDtoGet> fetchAllCareersDto(
+    public List<CareerDTOGet> fetchCareers(
     		@ApiParam(name = "pageNo", value = "Número de página", required = false)
                 @RequestParam(defaultValue = "0") Integer pageNo,
     		@ApiParam(name = "pageSize", value = "Tamaño de página", required = false)
@@ -53,7 +52,7 @@ public class CareerController {
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @GetMapping("/{id}")
-      public CareerDtoGet fetchCareerById(
+      public CareerDTOGet fetchCareer(
     		  @ApiParam(name = "id", value = "ID de la carrera", required = true) @PathVariable(value = "id") Long id) {
           return careerService.fetchCareerById(id);
     }
@@ -66,7 +65,7 @@ public class CareerController {
             @ApiResponse(code = 409, message = "Conflict")})
     @PostMapping
     public ResponseEntity<String> createCareer(
-            @ApiParam(name = "DTO", value = "Datos de carrera", required = true) @Valid @RequestBody CareerDtoPost dto) {
+            @ApiParam(name = "DTO", value = "Datos de carrera", required = true) @Valid @RequestBody CareerDTOPost dto) {
         return careerService.createCareer(dto);
     }
 
@@ -79,7 +78,7 @@ public class CareerController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCareer(
     		@ApiParam(name = "id", value = "ID de la carrera", required = true) @PathVariable(value = "id") Long id,
-            @ApiParam(name = "DTO", value = "Datos de carrera", required = true) @Valid @RequestBody CareerDtoPost dto) {
+            @ApiParam(name = "DTO", value = "Datos de carrera", required = true) @Valid @RequestBody CareerDTOPost dto) {
         return careerService.updateCareer(id, dto);
     }
 
@@ -89,7 +88,7 @@ public class CareerController {
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCareerById(
+    public ResponseEntity<String> deleteCareer(
     		@ApiParam(name = "id", value = "ID de la carrera", required = true) @PathVariable(value = "id") Long id) {
         return careerService.deleteCareerById(id);
     }

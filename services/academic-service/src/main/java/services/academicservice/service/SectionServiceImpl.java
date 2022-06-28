@@ -1,5 +1,6 @@
 package services.academicservice.service;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,11 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import services.academicservice.converter.SectionConverter;
-import services.academicservice.dto.SectionDtoGet;
-import services.academicservice.dto.SectionDtoPost;
-import services.academicservice.entity.Department;
-import services.academicservice.entity.Section;
-import services.academicservice.entity.Subject;
+import services.academicservice.dto.SectionDTOGet;
+import services.academicservice.dto.SectionDTOPost;
+import services.academicservice.entity.*;
 import services.academicservice.exception.SectionNotFoundException;
 import services.academicservice.repository.*;
 
@@ -26,10 +25,21 @@ public class SectionServiceImpl {
     private TermRepository termRepository;
     private SubjectRepository subjectRepository;
     private DepartmentRepository departmentRepository;
+    private SectionTeacherRepository sectionTeacherRepository;
+    private TeacherRepository teacherRepository;
     private SectionConverter sectionConverter;
 
-    public SectionServiceImpl(SectionRepository sectionRepository, TermRepository termRepository, SubjectRepository subjectRepository) {
+
+    public SectionServiceImpl(SectionRepository sectionRepository,
+                              TermRepository termRepository,
+                              SubjectRepository subjectRepository,
+                              DepartmentRepository departmentRepository,
+                              SectionTeacherRepository sectionTeacherRepository,
+                              TeacherRepository teacherRepository) {
         this.sectionRepository = sectionRepository;
+        this.departmentRepository = departmentRepository;
+        this.sectionTeacherRepository = sectionTeacherRepository;
+        this.teacherRepository = teacherRepository;
         this.sectionConverter = new SectionConverter(termRepository, subjectRepository);
     }
 
@@ -41,10 +51,10 @@ public class SectionServiceImpl {
      * @param sortBy field to be ordered by
      * @return list of section DTO objects
      */
-    public List<SectionDtoGet> fetchAllSections(Integer pageNo, Integer pageSize, String sortBy, String direction) {
+    public List<SectionDTOGet> fetchAllSections(Integer pageNo, Integer pageSize, String sortBy, String direction) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
         Page<Section> sections = sectionRepository.findAll(paging);
-        List<SectionDtoGet> sectionDtoGetList = new ArrayList<>();
+        List<SectionDTOGet> sectionDtoGetList = new ArrayList<>();
         for (Section section: sections) {
             sectionDtoGetList.add(sectionConverter.entityToDTO(section));
         }
@@ -56,10 +66,10 @@ public class SectionServiceImpl {
      * @param id id of section to be searched
      * @return section object which id correlate with the request
      */
-    public SectionDtoGet fetchSectionById(Long id) {
+    public SectionDTOGet fetchSectionById(Long id) {
         Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
-        SectionDtoGet sectionDtoGet = sectionConverter.entityToDTO(section);
+        SectionDTOGet sectionDtoGet = sectionConverter.entityToDTO(section);
         return sectionDtoGet;
     }
 
@@ -68,7 +78,7 @@ public class SectionServiceImpl {
      * @param dto DTO which contains specified fields for different tables
      * @return responseEntity object which contains a message and an HTTP status
      */
-    public ResponseEntity<String> createSection(SectionDtoPost dto) {
+    public ResponseEntity<String> createSection(SectionDTOPost dto) {
         String newName = dto.getSectionName();
         if (sectionRepository.findAllSectionsBy(newName).isEmpty()) {
             Section section = sectionConverter.dtoToEntity(dto);
@@ -85,7 +95,7 @@ public class SectionServiceImpl {
      * @param dto DTO which contains specified fields for different tables
      * @return responseEntity object which contains a message and an HTTP status
      */
-    public ResponseEntity<String> updateSection(Long id, SectionDtoPost dto) {
+    public ResponseEntity<String> updateSection(Long id, SectionDTOPost dto) {
         Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new SectionNotFoundException("Section id not found - " + id));
         String newName = dto.getSectionName();
@@ -112,6 +122,8 @@ public class SectionServiceImpl {
                 section.setModalityType((short) 130);
             }
 
+            /* ////////////////////////////////////////// */
+
             Subject subject = subjectRepository.findSubjectBy(dto.getSubjectDescription());
             section.setSubject(subject);
 
@@ -120,8 +132,28 @@ public class SectionServiceImpl {
 
             section.setSectionSize(dto.getSectionSize());
 
+            /* ////////////////////////////////////////// */
+
+            Long sectionId = section.getId();
+            SectionTeacher sectionTeacher = sectionTeacherRepository.findById(sectionId)
+                    .orElseThrow(() -> new ObjectNotFoundException(sectionId, "SectionTeacher"));
+            UserData userData = new UserData();
+            List<UserData> userList = userData.getUserList();
+            Long userId = null;
+            for (UserData user : userList) {
+                String fullname = user.getUserDataName().concat(user.getUserDataLastName());
+                if (dto.getTeacherName().equals(fullname)) {
+                    userId = user.getId();
+                }
+            }
+            Teacher teacher = teacherRepository.findByUserId(userId);
+            sectionTeacher.setTeacher(teacher);
+
+            /* ////////////////////////////////////////// */
+
             sectionRepository.save(section);
             subjectRepository.save(subject);
+            sectionTeacherRepository.save(sectionTeacher);
             return new ResponseEntity<String>("Section updated successfully", HttpStatus.OK);
         }
     }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SectionDtoGet {
+public class SectionDTOGet {
 
     private String sectionName;
     private Short sectionSize;

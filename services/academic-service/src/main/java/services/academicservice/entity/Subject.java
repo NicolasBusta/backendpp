@@ -1,9 +1,7 @@
 package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +9,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "ACADEMIC_SUBJECTS", schema = "academic")
 public class Subject {

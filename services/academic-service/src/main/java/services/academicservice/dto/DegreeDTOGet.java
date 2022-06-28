@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DegreeDtoPost {
+public class DegreeDTOGet {
 
-	private String descripcion;
-	private Short tipo;
+	private String description;
+	private String type;
 	
 }

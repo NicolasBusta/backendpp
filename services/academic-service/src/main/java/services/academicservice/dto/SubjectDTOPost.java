@@ -7,44 +7,39 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CareerDtoPost {
+public class SubjectDTOPost {
 
     public final static String REGEX = "^[A-Za-záéíóúÁÉÍÓÚ]+( [A-Za-záéíóúÁÉÍÓÚ]+)*$";
     public final static String REGEX_TWO = "^[0-9A-Za-záéíóúÁÉÍÓÚ]+( [0-9A-Za-záéíóúÁÉÍÓÚ]+)*$";
 
+    private Boolean subjectStatus;
+
     @Pattern(regexp=REGEX,message = "Invalid Input")
     @NotNull
-    private String description;
+    private String subjectDescription;
 
-    @Pattern(regexp=REGEX,message = "Invalid input")
-    private String legalDescription;
-
-    private Boolean status;
-
-    @Size(min = 1, max = 6, message = "Must be between 1 and 6 characters")
-    @Pattern(regexp=REGEX_TWO, message = "Invalid input")
+    @Pattern(regexp=REGEX_TWO,message = "Invalid Input")
     @NotNull
-    private String code;
-
-    private String careerType;
+    private String subjectCode;
 
     @Positive(message = "Must be greater than 0")
     @NotNull
-    private Long careerCredits;
+    private Short subjectType;
 
     @Positive(message = "Must be greater than 0")
     @NotNull
-    private Long careerHours;
+    private Long subjectHours;
 
     @Positive(message = "Must be greater than 0")
-    private Short book;
+    @NotNull
+    private Long subjectCredits;
 
     @Positive(message = "Must be greater than 0")
-    private Short invoice;
+    @NotNull
+    private Short examType;
 
 }

@@ -1,12 +1,12 @@
 package services.academicservice.converter;
 
-import services.academicservice.dto.DepartmentDtoGet;
+import services.academicservice.dto.DepartmentDTOGet;
 import services.academicservice.entity.Department;
 
 public class DepartmentConverter {
 
-    public DepartmentDtoGet entityToDTO(Department department) {
-        DepartmentDtoGet dto = new DepartmentDtoGet();
+    public DepartmentDTOGet entityToDTO(Department department) {
+        DepartmentDTOGet dto = new DepartmentDTOGet();
         dto.setDepartmentName(department.getDepartmentName());
         return dto;
     }

@@ -1,7 +1,7 @@
 package services.academicservice.converter;
 
-import services.academicservice.dto.SectionDtoGet;
-import services.academicservice.dto.SectionDtoPost;
+import services.academicservice.dto.SectionDTOGet;
+import services.academicservice.dto.SectionDTOPost;
 import services.academicservice.entity.Section;
 import services.academicservice.entity.Subject;
 import services.academicservice.entity.Term;
@@ -18,8 +18,8 @@ public class SectionConverter {
         this.subjectRepository = subjectRepository;
     }
 
-    public SectionDtoGet entityToDTO(Section section) {
-        SectionDtoGet dto = new SectionDtoGet();
+    public SectionDTOGet entityToDTO(Section section) {
+        SectionDTOGet dto = new SectionDTOGet();
         dto.setSectionName(section.getSectionName());
         dto.setSubjectDescription(section.getSubject().getSubjectDescription());
         dto.setTeacherName(null);
@@ -32,7 +32,7 @@ public class SectionConverter {
         return dto;
     }
 
-    public Section dtoToEntity(SectionDtoPost dto) {
+    public Section dtoToEntity(SectionDTOPost dto) {
         Section section = new Section();
 
         section.setSectionStatus(dto.getSectionStatus());

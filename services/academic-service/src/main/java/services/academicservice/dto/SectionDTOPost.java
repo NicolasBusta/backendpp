@@ -11,7 +11,7 @@ import javax.validation.constraints.Positive;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SectionDtoPost {
+public class SectionDTOPost {
 
     public final static String REGEX = "^[A-Za-záéíóúÁÉÍÓÚ]+( [A-Za-záéíóúÁÉÍÓÚ]+)*$";
 

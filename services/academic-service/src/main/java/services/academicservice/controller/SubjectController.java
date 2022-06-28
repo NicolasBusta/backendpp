@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import services.academicservice.dto.SubjectDtoGet;
-import services.academicservice.dto.SubjectDtoPost;
+import services.academicservice.dto.SubjectDTOGet;
+import services.academicservice.dto.SubjectDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.SubjectServiceImpl;
 
@@ -28,13 +28,13 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @ApiOperation(value = "Retorna todos los términos")
+    @ApiOperation(value = "Retorna todas las asignaturas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @GetMapping
-    public List<SubjectDtoGet> fetchAllSubjects() {
+    public List<SubjectDTOGet> fetchSubjects() {
         return subjectService.fetchAllSubjects();
     }
 
@@ -45,8 +45,8 @@ public class SubjectController {
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class),
             @ApiResponse(code = 409, message = "Conflict")})
     @PostMapping
-    public ResponseEntity<String> createCareer(
-            @ApiParam(name = "DTO", value = "Datos de asignatura", required = true) @Valid @RequestBody SubjectDtoPost dto) {
+    public ResponseEntity<String> createSubject(
+            @ApiParam(name = "DTO", value = "Datos de asignatura", required = true) @Valid @RequestBody SubjectDTOPost dto) {
         return subjectService.createSubject(dto);
     }
 

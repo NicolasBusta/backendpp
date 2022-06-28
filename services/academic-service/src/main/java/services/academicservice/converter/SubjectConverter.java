@@ -1,13 +1,13 @@
 package services.academicservice.converter;
 
-import services.academicservice.dto.SubjectDtoGet;
-import services.academicservice.dto.SubjectDtoPost;
+import services.academicservice.dto.SubjectDTOGet;
+import services.academicservice.dto.SubjectDTOPost;
 import services.academicservice.entity.Subject;
 
 public class SubjectConverter {
 
-    public SubjectDtoGet entityToDTO(Subject subject) {
-        SubjectDtoGet dto = new SubjectDtoGet();
+    public SubjectDTOGet entityToDTO(Subject subject) {
+        SubjectDTOGet dto = new SubjectDTOGet();
         dto.setSubjectCode(subject.getSubjectCode());
         dto.setSubjectDescription(subject.getSubjectDescription());
         Short subjectType = subject.getSubjectType();
@@ -27,7 +27,7 @@ public class SubjectConverter {
         return dto;
     }
 
-    public Subject dtoToEntity(SubjectDtoPost dto) {
+    public Subject dtoToEntity(SubjectDTOPost dto) {
         Subject subject = new Subject();
         subject.setSubjectCode(dto.getSubjectCode());
         subject.setSubjectDescription(dto.getSubjectDescription());

@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DepartmentDtoGet {
+public class TermDTOGet {
 
-    private String departmentName;
+    private String termDescription;
 
 }

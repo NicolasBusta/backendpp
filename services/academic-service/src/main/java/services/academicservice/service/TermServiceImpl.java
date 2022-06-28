@@ -3,7 +3,7 @@ package services.academicservice.service;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.converter.TermConverter;
-import services.academicservice.dto.TermDtoGet;
+import services.academicservice.dto.TermDTOGet;
 import services.academicservice.entity.Term;
 import services.academicservice.repository.TermRepository;
 
@@ -21,9 +21,9 @@ public class TermServiceImpl {
         this.termConverter = new TermConverter();
     }
 
-    public List<TermDtoGet> fetchAllTerms() {
+    public List<TermDTOGet> fetchAllTerms() {
         List<Term> termList = termRepository.findAll();
-        List<TermDtoGet> dtoList = new ArrayList<>();
+        List<TermDTOGet> dtoList = new ArrayList<>();
         for (Term term : termList) {
             dtoList.add(termConverter.entityToDTO(term));
         }

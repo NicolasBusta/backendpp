@@ -9,9 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import services.academicservice.converter.CareerConverter;
-import services.academicservice.dto.CareerDtoGet;
-import services.academicservice.dto.CareerDtoGetTwo;
-import services.academicservice.dto.CareerDtoPost;
+import services.academicservice.dto.CareerDTOGet;
+import services.academicservice.dto.CareerDTOPost;
 import services.academicservice.entity.Career;
 import services.academicservice.exception.CareerNotFoundException;
 import services.academicservice.repository.CareerRepository;
@@ -38,35 +37,14 @@ public class CareerServiceImpl {
      * @param sortBy field to be ordered by
      * @return list of career DTO objects
      */
-    public List<CareerDtoGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction) {
+    public List<CareerDTOGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
         Page<Career> careers = careerRepository.findAll(paging);
         if (careers.isEmpty()) {
             throw new CareerNotFoundException("No careers found");
         }
-        List<CareerDtoGet> listDTO = new ArrayList<>();
+        List<CareerDTOGet> listDTO = new ArrayList<>();
         for (Career career : careers) {
-        	listDTO.add(careerConverter.entityToBasicDTO(career));
-		}
-        return listDTO;
-    }
-
-    /**
-     *
-     * @param pageNo page number to display
-     * @param pageSize number of objects shown per page
-     * @param direction ascendant or descendant
-     * @param sortBy field to be ordered by
-     * @return list of career DTO objects
-     */
-    public List<CareerDtoGetTwo> fetchAllCareersDto(Integer pageNo, Integer pageSize, String sortBy, String direction) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
-        Page<Career> careerList = careerRepository.findAll(paging);
-        if (careerList.isEmpty()) {
-            throw new CareerNotFoundException("No careers found");
-        }
-        List<CareerDtoGetTwo> listDTO = new ArrayList<>();
-        for (Career career : careerList) {
         	listDTO.add(careerConverter.entityToDTO(career));
 		}
         return listDTO;
@@ -77,11 +55,11 @@ public class CareerServiceImpl {
      * @param id id of career to be searched
      * @return career object which id correlate with the request
      */
-    public CareerDtoGet fetchCareerById(Long id) {
+    public CareerDTOGet fetchCareerById(Long id) {
         Career career = careerRepository.findById(id)
                   .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
         
-        CareerDtoGet careerDtoGet = careerConverter.entityToBasicDTO(career);
+        CareerDTOGet careerDtoGet = careerConverter.entityToDTO(career);
         return careerDtoGet;
     }
 
@@ -90,7 +68,7 @@ public class CareerServiceImpl {
      * @param dto DTO which contains specified fields for different tables
      * @return responseEntity object which contains a message and a HTTP status
      */
-    public ResponseEntity<String> createCareer(CareerDtoPost dto) {
+    public ResponseEntity<String> createCareer(CareerDTOPost dto) {
         String newDescription = dto.getDescription();
         String newLegalDescription = dto.getLegalDescription();
         String newCode = dto.getCode();
@@ -109,7 +87,7 @@ public class CareerServiceImpl {
      * @param dto DTO which contains specified fields for different tables
      * @return responseEntity object which contains a message and a HTTP status
      */
-    public ResponseEntity<String> updateCareer(Long id, CareerDtoPost dto) {
+    public ResponseEntity<String> updateCareer(Long id, CareerDTOPost dto) {
         Career career = careerRepository.findById(id)
                 .orElseThrow(() -> new CareerNotFoundException("Career id not found - " + id));
         String newDescription = dto.getDescription();

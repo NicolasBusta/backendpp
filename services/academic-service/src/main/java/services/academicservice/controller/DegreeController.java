@@ -1,51 +1,50 @@
 package services.academicservice.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import services.academicservice.dto.DegreeDtoGet;
-import services.academicservice.dto.DegreeDtoPost;
+import org.springframework.web.bind.annotation.*;
+
+import services.academicservice.dto.DegreeDTOGet;
+import services.academicservice.dto.DegreeDTOPost;
 import services.academicservice.service.DegreeServiceImpl;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/degree")
+@RequestMapping("/degrees")
 public class DegreeController {
 
+	DegreeServiceImpl degreeService;
+
 	@Autowired
-	DegreeServiceImpl degreeService; 
-	
-	@GetMapping("/all")
-	public List<DegreeDtoGet> fetchAllDegrees(){
-		return degreeService.fetchAllDegrees();
+	public DegreeController(DegreeServiceImpl degreeService) {
+		this.degreeService = degreeService;
+	}
+
+	@GetMapping
+	public List<DegreeDTOGet> fetchDegrees() {
+		return degreeService.fetchDegrees();
 	}
 	
-	@GetMapping("/get/{id}")
-    public DegreeDtoGet fetchIdDegrees(@PathVariable(value = "id") Long id){
-        return degreeService.fetchIdDegrees(id);
+	@GetMapping("/{id}")
+    public DegreeDTOGet fetchDegree(@PathVariable(value = "id") Long id) {
+        return degreeService.fetchDegree(id);
     }
 	
-	@PostMapping("/save")
-    public ResponseEntity<String> degreeCreation(@RequestBody DegreeDtoPost degreeDtoPost){
-       return degreeService.degreeCreation(degreeDtoPost);
+	@PostMapping
+    public ResponseEntity<String> createDegree(@RequestBody DegreeDTOPost dto) {
+       return degreeService.createDegree(dto);
     }
 
-	@DeleteMapping ("/delete/{id}")
-	public ResponseEntity<String> degreeDelete(@PathVariable(value = "id") Long id){
-		 return degreeService.degreeDelete(id);
+	@DeleteMapping ("/{id}")
+	public ResponseEntity<String> deleteDegree(@PathVariable(value = "id") Long id) {
+		 return degreeService.deleteDegree(id);
 	}
 	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<String> degreeUpdate(@PathVariable(value = "id") Long id, @RequestBody DegreeDtoPost degreeDtoPost){
-	       return degreeService.degreeUpdate(degreeDtoPost, id );
-	    }
+	@PutMapping("/{id}")
+	public ResponseEntity<String> updateDegree(@PathVariable(value = "id") Long id, @RequestBody DegreeDTOPost dto) {
+	       return degreeService.updateDegree(id, dto);
+	}
 	
 }
 

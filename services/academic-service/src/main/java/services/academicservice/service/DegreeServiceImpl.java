@@ -1,58 +1,69 @@
 package services.academicservice.service;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.hibernate.ObjectNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import lombok.extern.slf4j.Slf4j;
-import services.academicservice.dto.DegreeDtoGet;
-import services.academicservice.dto.DegreeDtoPost;
+import services.academicservice.converter.DegreeConverter;
+import services.academicservice.dto.DegreeDTOGet;
+import services.academicservice.dto.DegreeDTOPost;
 import services.academicservice.entity.Degree;
 import services.academicservice.repository.DegreeRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
-/*@Slf4j*/
 public class DegreeServiceImpl {
-	@Autowired
+
 	DegreeRepository degreeRepository;
+	DegreeConverter degreeConverter;
+
+	@Autowired
+	public DegreeServiceImpl(DegreeRepository degreeRepository) {
+		this.degreeRepository = degreeRepository;
+		this.degreeConverter = new DegreeConverter();
+	}
 	
-	public List<DegreeDtoGet> fetchAllDegrees(){
-		List<Degree> degreeAll = degreeRepository.findAll();
-		List<DegreeDtoGet> degreeAllDto = degreeAll.stream().map(DegreeDtoGet::new).collect(Collectors.toList());
-		return degreeAllDto;
+	public List<DegreeDTOGet> fetchDegrees() {
+		List<Degree> degreeList = degreeRepository.findAll();
+		List<DegreeDTOGet> dtoList = new ArrayList<>();
+		for (Degree degree : degreeList) {
+			DegreeDTOGet dto = degreeConverter.entityToDTO(degree);
+			dtoList.add(dto);
+		}
+		return dtoList;
 	}
 
-	public DegreeDtoGet fetchIdDegrees(Long id) {
-		Degree buscarPorId = degreeRepository.findById(id).orElseThrow(null);
-		DegreeDtoGet degreeIdDto = new DegreeDtoGet(buscarPorId);
-		return degreeIdDto;
+	public DegreeDTOGet fetchDegree(Long id) {
+		Degree degree = degreeRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException(id, "Degree"));
+		DegreeDTOGet dto = degreeConverter.entityToDTO(degree);
+		return dto;
 	}
 	
-	public ResponseEntity<String> degreeCreation(DegreeDtoPost degreeDtoPost) {
-		
-		Degree nuevoDegree = new Degree(degreeDtoPost);
-		degreeRepository.save(nuevoDegree);
-		return new ResponseEntity<String>("Degree create successfully", HttpStatus.OK);
+	public ResponseEntity<String> createDegree(DegreeDTOPost dto) {
+		Degree degree = degreeConverter.dtoToEntity(dto);
+		degreeRepository.save(degree);
+		return new ResponseEntity<String>("Degree created successfully", HttpStatus.CREATED);
 	}
 	
-	public ResponseEntity<String> degreeDelete (Long id){
+	public ResponseEntity<String> updateDegree(Long id, DegreeDTOPost dto) {
+		Degree degree = degreeRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException(id, "Degree"));
+		degree.setDescription(dto.getDescription());
+		degree.setType(dto.getType());
+        degreeRepository.save(degree);
+		return new ResponseEntity<String>("Degree updated successfully", HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> deleteDegree(Long id) {
 		degreeRepository.deleteById(id);
-		return new ResponseEntity<String>("Degree delete successfully", HttpStatus.OK);
-	}
-	
-	public ResponseEntity<String> degreeUpdate (DegreeDtoPost degreeDtoPost, Long id){
-		Degree updateDegree = degreeRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Degree"));
-		updateDegree.setDescripcion(degreeDtoPost.getDescripcion());
-		updateDegree.setTipo(degreeDtoPost.getTipo());
-        degreeRepository.save(updateDegree);
-		return new ResponseEntity<String>("The Degree was updated", HttpStatus.OK);
+		return new ResponseEntity<String>("Degree deleted successfully", HttpStatus.OK);
 	}
 
 }

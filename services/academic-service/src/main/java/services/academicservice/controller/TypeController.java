@@ -32,7 +32,22 @@ public class TypeController {
             typeList.add(this.type);
         }
 
-        return this.typeList;
+        return typeList;
+    }
+
+    @GetMapping("/degree")
+    public List<Type> fetchDegreeTypes() {
+        typeDescription = new ArrayList<>();
+        typeList = new ArrayList<>();
+
+        this.typeDescription.add("Final");
+
+        for (String description : this.typeDescription) {
+            type = new Type();
+            this.type.setDescription(description);
+            typeList.add(this.type);
+        }
+        return typeList;
     }
 
     @GetMapping("/section/modality")
@@ -50,7 +65,7 @@ public class TypeController {
             typeList.add(this.type);
         }
 
-        return this.typeList;
+        return typeList;
     }
 
     @GetMapping("/section/lms")
@@ -67,6 +82,6 @@ public class TypeController {
             typeList.add(this.type);
         }
 
-        return this.typeList;
+        return typeList;
     }
 }

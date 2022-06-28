@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import services.academicservice.dto.DepartmentDtoGet;
+import services.academicservice.dto.DepartmentDTOGet;
 import services.academicservice.errorHandler.GenericErrorResponse;
 import services.academicservice.service.DepartmentServiceImpl;
 
@@ -32,7 +32,7 @@ public class DepartmentController {
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
             @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
     @GetMapping
-    public List<DepartmentDtoGet> fetchAllDepartments() {
+    public List<DepartmentDTOGet> fetchAllDepartments() {
         return departmentService.fetchAllDepartments();
     }
 

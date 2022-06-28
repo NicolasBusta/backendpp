@@ -1,16 +1,13 @@
 package services.academicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "ACADEMIC_CAREERS_BOOKS", schema = "academic")
 public class CareerBook {

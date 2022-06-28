@@ -1,9 +1,9 @@
 package services.academicservice.service;
 
-import services.academicservice.dto.TermDtoGet;
+import services.academicservice.dto.TermDTOGet;
 
 public interface TermService {
 
-    public TermDtoGet fetchAllTerms();
+    public TermDTOGet fetchAllTerms();
 
 }

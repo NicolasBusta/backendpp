@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubjectDtoGet {
+public class SubjectDTOGet {
 
 	private String subjectCode;
 	private String subjectDescription;
