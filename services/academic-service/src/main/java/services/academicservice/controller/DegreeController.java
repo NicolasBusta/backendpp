@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import services.academicservice.dto.DegreeDTOGet;
 import services.academicservice.dto.DegreeDTOPost;
-import services.academicservice.service.DegreeServiceImpl;
+import services.academicservice.service.DegreeService;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/degrees")
 public class DegreeController {
 
-	DegreeServiceImpl degreeService;
+	private final DegreeService degreeService;
 
 	@Autowired
-	public DegreeController(DegreeServiceImpl degreeService) {
+	public DegreeController(DegreeService degreeService) {
 		this.degreeService = degreeService;
 	}
 

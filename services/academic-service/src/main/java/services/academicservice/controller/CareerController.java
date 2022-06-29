@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import services.academicservice.dto.CareerDTOGet;
 import services.academicservice.dto.CareerDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
-import services.academicservice.service.CareerServiceImpl;
+import services.academicservice.service.CareerService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,10 +21,10 @@ import java.util.List;
 @RequestMapping("/careers")
 public class CareerController {
 
-    private final CareerServiceImpl careerService;
+    private final CareerService careerService;
 
     @Autowired
-    public CareerController(CareerServiceImpl careerService) {
+    public CareerController(CareerService careerService) {
         this.careerService = careerService;
     }
 

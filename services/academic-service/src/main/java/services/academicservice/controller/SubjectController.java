@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import services.academicservice.dto.SubjectDTOGet;
 import services.academicservice.dto.SubjectDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
-import services.academicservice.service.SubjectServiceImpl;
+import services.academicservice.service.SubjectService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,10 +21,10 @@ import java.util.List;
 @RequestMapping("/subjects")
 public class SubjectController {
 
-    private SubjectServiceImpl subjectService;
+    private final SubjectService subjectService;
 
     @Autowired
-    public SubjectController(SubjectServiceImpl subjectService) {
+    public SubjectController(SubjectService subjectService) {
         this.subjectService = subjectService;
     }
 

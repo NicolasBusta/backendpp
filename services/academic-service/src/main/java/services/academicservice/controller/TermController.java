@@ -3,15 +3,13 @@ package services.academicservice.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import services.academicservice.dto.TermDTOGet;
 import services.academicservice.errorHandler.GenericErrorResponse;
-import services.academicservice.service.TermServiceImpl;
+import services.academicservice.service.TermService;
 
 import java.util.List;
 
@@ -19,10 +17,10 @@ import java.util.List;
 @RequestMapping("/terms")
 public class TermController {
 
-    private TermServiceImpl termService;
+    private final TermService termService;
 
     @Autowired
-    public TermController(TermServiceImpl termService) {
+    public TermController(TermService termService) {
         this.termService = termService;
     }
 

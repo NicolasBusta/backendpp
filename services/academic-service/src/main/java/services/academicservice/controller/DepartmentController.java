@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import services.academicservice.dto.DepartmentDTOGet;
 import services.academicservice.errorHandler.GenericErrorResponse;
-import services.academicservice.service.DepartmentServiceImpl;
+import services.academicservice.service.DepartmentService;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    private DepartmentServiceImpl departmentService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public DepartmentController(DepartmentServiceImpl departmentService) {
+    public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
     }
 
