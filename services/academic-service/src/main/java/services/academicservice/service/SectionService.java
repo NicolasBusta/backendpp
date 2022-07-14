@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface SectionService {
 
+    List<SectionDTOGet> fetchAllSection();
+
     List<SectionDTOGet> fetchAllSections(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
     SectionDTOGet fetchSectionById(Long id);

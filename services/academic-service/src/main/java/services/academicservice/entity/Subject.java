@@ -1,6 +1,5 @@
 package services.academicservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,11 +41,10 @@ public class Subject {
     @Column(name = "EXAM_TYPE")
     private Short examType;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @OneToMany(mappedBy = "subject")
     private Set<Section> sections;
 
-    @OneToOne(mappedBy = "subjectDepartment", cascade = CascadeType.ALL)
-    private SubjectDepartment subjectDepartment;
+    @OneToMany(mappedBy = "subject")
+    private Set<SubjectDepartment> subjectDepartment;
 
 }

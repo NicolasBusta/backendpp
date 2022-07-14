@@ -4,11 +4,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import services.academicservice.dto.CareerDTOGet;
 import services.academicservice.dto.CareerDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
@@ -28,6 +26,7 @@ public class CareerController {
         this.careerService = careerService;
     }
 
+    /*
     @ApiOperation(value = "Retorna todas las carreras")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -40,6 +39,17 @@ public class CareerController {
             @ApiParam(name = "sortBy", value = "Campo de ordenamiento") @RequestParam(defaultValue = "id") String sortBy,
             @ApiParam(name = "direction", value = "Dirección de ordenamiento") @RequestParam(defaultValue = "asc") String direction) {
         return careerService.fetchAllCareers(pageNo, pageSize, sortBy, direction);
+    }
+    */
+
+    @ApiOperation(value = "Retorna todas las carreras")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class) })
+    @GetMapping
+    public List<CareerDTOGet> fetchCareers() {
+        return careerService.fetchAllCareer();
     }
 
     @ApiOperation(value = "Retorna una carrera")

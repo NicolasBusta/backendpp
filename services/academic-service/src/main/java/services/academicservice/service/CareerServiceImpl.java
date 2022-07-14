@@ -31,14 +31,7 @@ public class CareerServiceImpl implements CareerService {
         this.careerConverter = new CareerConverter();
     }
 
-    /**
-     *
-     * @param pageNo page number to display
-     * @param pageSize number of objects shown per page
-     * @param direction ascendant or descendant
-     * @param sortBy field to be ordered by
-     * @return list of career DTO objects
-     */
+
     public List<CareerDTOGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(direction), sortBy);
         Page<Career> careers = careerRepository.findAll(paging);
@@ -49,6 +42,19 @@ public class CareerServiceImpl implements CareerService {
         for (Career career : careers) {
         	listDTO.add(careerConverter.entityToDTO(career));
 		}
+        return listDTO;
+    }
+
+
+    public List<CareerDTOGet> fetchAllCareer() {
+        List<Career> careers = careerRepository.findAll();
+        if (careers.isEmpty()) {
+            throw new CareerNotFoundException("No careers found");
+        }
+        List<CareerDTOGet> listDTO = new ArrayList<>();
+        for (Career career : careers) {
+            listDTO.add(careerConverter.entityToDTO(career));
+        }
         return listDTO;
     }
 

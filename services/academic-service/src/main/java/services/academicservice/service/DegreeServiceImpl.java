@@ -45,16 +45,27 @@ public class DegreeServiceImpl implements DegreeService {
 	}
 	
 	public ResponseEntity<String> createDegree(DegreeDTOPost dto) {
-		Degree degree = degreeConverter.dtoToEntity(dto);
-		degreeRepository.save(degree);
-		return new ResponseEntity<>("Degree created successfully", HttpStatus.CREATED);
+		String newDescription = dto.getDescription();
+		String newAlternativeDescription = dto.getAlternativeDescription();
+		if (degreeRepository.findAllDegreesBy(newDescription, newAlternativeDescription).isEmpty()) {
+			Degree degree = degreeConverter.dtoToEntity(dto);
+			if (dto.isOption()) {
+				degree.setAlternativeName(dto.getAlternativeDescription());
+			}
+			degreeRepository.save(degree);
+			return new ResponseEntity<>("Degree created successfully", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("Degree already exists", HttpStatus.CONFLICT);
+		}
 	}
 	
 	public ResponseEntity<String> updateDegree(Long id, DegreeDTOPost dto) {
 		Degree degree = degreeRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException(id, "Degree"));
 		degree.setDescription(dto.getDescription());
-		degree.setType(dto.getType());
+		if (dto.getType().equals("Final")) {
+			degree.setType((short) 12);
+		}
         degreeRepository.save(degree);
 		return new ResponseEntity<>("Degree updated successfully", HttpStatus.OK);
 	}

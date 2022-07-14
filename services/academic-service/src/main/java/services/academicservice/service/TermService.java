@@ -8,4 +8,6 @@ public interface TermService {
 
     List<TermDTOGet> fetchAllTerms();
 
+    List<String> fetchAllTermsDescription();
+
 }

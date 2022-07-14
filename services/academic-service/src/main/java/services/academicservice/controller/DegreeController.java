@@ -8,6 +8,7 @@ import services.academicservice.dto.DegreeDTOGet;
 import services.academicservice.dto.DegreeDTOPost;
 import services.academicservice.service.DegreeService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class DegreeController {
     }
 	
 	@PostMapping
-    public ResponseEntity<String> createDegree(@RequestBody DegreeDTOPost dto) {
+    public ResponseEntity<String> createDegree(@Valid @RequestBody DegreeDTOPost dto) {
        return degreeService.createDegree(dto);
     }
 
@@ -42,7 +43,7 @@ public class DegreeController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateDegree(@PathVariable(value = "id") Long id, @RequestBody DegreeDTOPost dto) {
+	public ResponseEntity<String> updateDegree(@Valid @PathVariable(value = "id") Long id, @RequestBody DegreeDTOPost dto) {
 	       return degreeService.updateDegree(id, dto);
 	}
 	

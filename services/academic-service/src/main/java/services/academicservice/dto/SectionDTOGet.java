@@ -9,13 +9,22 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SectionDTOGet {
 
+    private Long id;
+
     private String sectionName;
-    private Short sectionSize;
-    private Short sectionQuote;
-    private Boolean sectionStatus;
-    private Boolean sectionR;
-    private String teacherName;
+
     private String subjectDescription;
+
+    private String teacherName;
+
     private String termDescription;
+
+    private Short sectionSize;
+
+    private Short sectionQuote;
+
+    private Boolean sectionStatus;
+
+    private Boolean sectionR;
 
 }

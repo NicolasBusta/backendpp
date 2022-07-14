@@ -34,4 +34,14 @@ public class TermController {
         return termService.fetchAllTerms();
     }
 
+    @ApiOperation(value = "Retornar solo la descripción de todas los términos")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @GetMapping("/description")
+    public List<String> fetchTermsDescription() {
+        return termService.fetchAllTermsDescription();
+    }
+
 }

@@ -1,6 +1,5 @@
 package services.academicservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -99,8 +98,7 @@ public class Term {
     @Column(name = "TERM_TYPE")
     private Short termType;
 
-    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @OneToMany(mappedBy = "term")
     private Set<Section> sections;
 
 }

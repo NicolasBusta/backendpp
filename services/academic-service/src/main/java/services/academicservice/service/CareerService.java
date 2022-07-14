@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CareerService {
 
+    List<CareerDTOGet> fetchAllCareer();
+
     List<CareerDTOGet> fetchAllCareers(Integer pageNo, Integer pageSize, String sortBy, String direction);
 
     CareerDTOGet fetchCareerById(Long id);

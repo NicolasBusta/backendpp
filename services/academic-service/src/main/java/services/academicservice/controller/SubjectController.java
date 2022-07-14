@@ -28,7 +28,7 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @ApiOperation(value = "Retorna todas las asignaturas")
+    @ApiOperation(value = "Retornar todas las asignaturas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
@@ -38,7 +38,28 @@ public class SubjectController {
         return subjectService.fetchAllSubjects();
     }
 
-    @ApiOperation(value = "Crea una nueva asignatura")
+    @ApiOperation(value = "Retornar solo la descripción de todas las asignaturas")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @GetMapping("/description")
+    public List<String> fetchSubjectsDescription() {
+        return subjectService.fetchAllSubjectsDescription();
+    }
+
+    @ApiOperation(value = "Retornar una asignatura")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class)})
+    @GetMapping("/{id}")
+    public SubjectDTOGet fetchSubject(
+            @ApiParam(name = "id", value = "ID de la asignatura", required = true) @PathVariable Long id) {
+        return subjectService.fetchSubjectById(id);
+    }
+
+    @ApiOperation(value = "Crear una nueva asignatura")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
@@ -48,6 +69,30 @@ public class SubjectController {
     public ResponseEntity<String> createSubject(
             @ApiParam(name = "DTO", value = "Datos de asignatura", required = true) @Valid @RequestBody SubjectDTOPost dto) {
         return subjectService.createSubject(dto);
+    }
+
+    @ApiOperation(value = "Actualizar una asignatura")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class),
+            @ApiResponse(code = 409, message = "Conflict")})
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateSubject(
+            @ApiParam(name = "id", value = "ID de la asignatura", required = true) @PathVariable Long id,
+            @ApiParam(name = "DTO", value = "Datos de asignatura", required = true) @Valid @RequestBody SubjectDTOPost dto) {
+        return subjectService.updateSubject(id, dto);
+    }
+
+    @ApiOperation(value = "Eliminar una asignatura")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class) })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSubject(
+            @ApiParam(name = "id", value = "ID de la asignatura", required = true) @PathVariable(value = "id") Long id) {
+        return subjectService.deleteSubject(id);
     }
 
 }

@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 
 import services.academicservice.entity.Term;
 
+import java.util.List;
+
 public interface TermRepository extends JpaRepository<Term, Long> {
 
     @Query(
@@ -15,5 +17,11 @@ public interface TermRepository extends JpaRepository<Term, Long> {
     )
     Term findTermBy(
             @Param("termDescription") String termDescription);
+
+    @Query(
+            "SELECT DISTINCT te.termDescription " +
+                    "FROM Term te"
+    )
+    List<String> getDistinctTermByName();
 
 }

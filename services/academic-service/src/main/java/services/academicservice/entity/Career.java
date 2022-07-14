@@ -41,8 +41,10 @@ public class Career {
     @Column(name = "CAREER_HOURS")
     private Long careerHours;
 
+    /*
     @Column(name = "INTERMEDIATE_CAREER")
     private Long intermediateCareer;
+    */
 
     @OneToOne(mappedBy = "career", cascade = CascadeType.ALL)
     @JsonManagedReference

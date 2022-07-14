@@ -1,6 +1,5 @@
 package services.academicservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,8 @@ public class Section {
     @Column(name = "SECTION_NAME")
     private String sectionName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "SUBJECT_ID")
-    @JsonManagedReference
     private Subject subject;
 
     @Column(name = "LMS_TYPE")
@@ -31,9 +29,8 @@ public class Section {
     @Column(name = "LMS_SECTION_ID")
     private Long lmsSectionId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "TERM_ID")
-    @JsonManagedReference
     private Term term;
 
     @Column(name = "MODALITY_TYPE")

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class DegreeDTOGet {
 
+	private Long id;
 	private String description;
 	private String type;
 	

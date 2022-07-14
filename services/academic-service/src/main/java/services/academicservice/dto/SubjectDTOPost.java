@@ -26,9 +26,8 @@ public class SubjectDTOPost {
     @NotNull
     private String subjectCode;
 
-    @Positive(message = "Must be greater than 0")
     @NotNull
-    private Short subjectType;
+    private String subjectType;
 
     @Positive(message = "Must be greater than 0")
     @NotNull
@@ -38,8 +37,9 @@ public class SubjectDTOPost {
     @NotNull
     private Long subjectCredits;
 
-    @Positive(message = "Must be greater than 0")
+    private String subjectDuration;
+
     @NotNull
-    private Short examType;
+    private String examType;
 
 }

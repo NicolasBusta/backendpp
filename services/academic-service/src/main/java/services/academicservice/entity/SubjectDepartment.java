@@ -16,12 +16,12 @@ public class SubjectDepartment {
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPARTMENT_ID")
-    private Department departmentSubject;
+    private Department department;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUBJECT_ID")
-    private Subject subjectDepartment;
+    private Subject subject;
 
 }

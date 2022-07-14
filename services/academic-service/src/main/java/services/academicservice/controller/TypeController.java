@@ -41,6 +41,7 @@ public class TypeController {
         typeList = new ArrayList<>();
 
         this.typeDescription.add("Final");
+        this.typeDescription.add("Intermedio");
 
         for (String description : this.typeDescription) {
             type = new Type();
@@ -50,7 +51,25 @@ public class TypeController {
         return typeList;
     }
 
-    @GetMapping("/section/modality")
+    @GetMapping("/subject")
+    public List<Type> fetchSubjectTypes() {
+        typeDescription = new ArrayList<>();
+        typeList = new ArrayList<>();
+
+        this.typeDescription.add("Bimestral");
+        this.typeDescription.add("Práctica");
+        this.typeDescription.add("Seminario");
+        this.typeDescription.add("Examen");
+
+        for (String description : this.typeDescription) {
+            type = new Type();
+            this.type.setDescription(description);
+            typeList.add(this.type);
+        }
+        return typeList;
+    }
+
+    @GetMapping("/modality")
     public List<Type> fetchAllModalityTypes() {
         typeDescription = new ArrayList<>();
         typeList = new ArrayList<>();
@@ -68,7 +87,7 @@ public class TypeController {
         return typeList;
     }
 
-    @GetMapping("/section/lms")
+    @GetMapping("/lms")
     public List<Type> fetchAllLMSTypes() {
         typeDescription = new ArrayList<>();
         typeList = new ArrayList<>();
@@ -84,4 +103,25 @@ public class TypeController {
 
         return typeList;
     }
+
+    @GetMapping("/exam")
+    public List<Type> fetchAllExamTypes() {
+        typeDescription = new ArrayList<>();
+        typeList = new ArrayList<>();
+
+        this.typeDescription.add("Normal (22 preguntas)");
+        this.typeDescription.add("Complejo (9 preguntas)");
+        this.typeDescription.add("Sin Examen");
+        this.typeDescription.add("Sin Examen (Nota 5)");
+        this.typeDescription.add("Normal (30 preguntas)");
+
+        for (String description : this.typeDescription) {
+            type = new Type();
+            this.type.setDescription(description);
+            typeList.add(this.type);
+        }
+
+        return typeList;
+    }
+
 }

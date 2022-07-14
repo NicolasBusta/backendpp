@@ -4,11 +4,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import services.academicservice.dto.SectionDTOGet;
 import services.academicservice.dto.SectionDTOPost;
 import services.academicservice.errorHandler.GenericErrorResponse;
@@ -28,6 +26,7 @@ public class SectionController {
         this.sectionService = sectionService;
     }
 
+    /*
     @ApiOperation(value = "Retorna todas las secciones")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -38,9 +37,20 @@ public class SectionController {
             @ApiParam(name = "pageNo", value = "Número de página") @RequestParam(defaultValue = "0") Integer pageNo,
             @ApiParam(name = "pageSize", value = "Tamaño de página") @RequestParam(defaultValue = "20") Integer pageSize,
             @ApiParam(name = "sortBy", value = "Campo de ordenamiento") @RequestParam(defaultValue = "id") String sortBy,
-            @ApiParam(name = "direction", value = "Dirección de ordenamiento") @RequestParam String direction) {
+            @ApiParam(name = "direction", value = "Dirección de ordenamiento") @RequestParam(defaultValue = "asc") String direction) {
         return sectionService.fetchAllSections(pageNo, pageSize, sortBy, direction);
     }
+    */
+    @ApiOperation(value = "Retorna todas las secciones")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericErrorResponse.class),
+            @ApiResponse(code = 404, message = "Not found", response = GenericErrorResponse.class) })
+    @GetMapping
+    public List<SectionDTOGet> fetchSections() {
+        return sectionService.fetchAllSection();
+    }
+
 
     @ApiOperation(value = "Retorna una sección")
     @ApiResponses(value = {

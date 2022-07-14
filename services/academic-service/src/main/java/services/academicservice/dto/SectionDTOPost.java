@@ -14,15 +14,15 @@ import javax.validation.constraints.Positive;
 public class SectionDTOPost {
 
     public final static String REGEX = "^[A-Za-záéíóúÁÉÍÓÚ]+( [A-Za-záéíóúÁÉÍÓÚ]+)*$";
+    public final static String REGEX_TWO = "^[0-9A-Za-záéíóúÁÉÍÓÚ]+( [0-9A-Za-záéíóúÁÉÍÓÚ]+)*$";
 
     private Boolean sectionStatus;
 
-    private Boolean sectionEnable;
-
-    @Pattern(regexp=REGEX,message = "Invalid Input")
+    @Pattern(regexp=REGEX_TWO,message = "Invalid Input")
     @NotNull
     private String sectionName;
 
+    @Pattern(regexp=REGEX,message = "Invalid Input")
     private String modalityType;
 
     private String termDescription;
@@ -36,7 +36,5 @@ public class SectionDTOPost {
     @Positive(message = "Must be greater than 0")
     @NotNull
     private Short sectionSize;
-
-    private String teacherName;
 
 }
