@@ -8,6 +8,7 @@ public class SubjectConverter {
 
     public SubjectDTOGet entityToDTO(Subject subject) {
         SubjectDTOGet dto = new SubjectDTOGet();
+        dto.setId(subject.getId());
         dto.setSubjectCode(subject.getSubjectCode());
         dto.setSubjectDescription(subject.getSubjectDescription());
         Short subjectType = subject.getSubjectType();

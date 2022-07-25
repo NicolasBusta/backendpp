@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SubjectDTOGet {
 
+	private Long id;
 	private String subjectCode;
 	private String subjectDescription;
 	private Boolean subjectStatus;
